@@ -635,4 +635,14 @@ config SOUND_CONTROL_HAX_GPL
 	default y
 	help
 	  FauxSound WCD93xx chipset sound control hacks
+<<<<<<< HEAD
 >>>>>>> 7d27e66... Sound Control: Sound control for WCD93xx codec
+=======
+
+config SOUND_CONTROL_HAX_3_GPL
+	tristate "new wcd93xx sound control hax"
+	default y
+	help
+	  FauxSound WCD93xx chipset sound control hacks 3.0 for deeper hax
+
+>>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
