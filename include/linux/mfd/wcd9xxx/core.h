@@ -305,6 +305,15 @@ struct wcd9xxx_reg_val {
 	int bytes;          /* number of bytes to be written */
 };
 
+<<<<<<< HEAD
+=======
+int wcd9xxx_reg_read(struct wcd9xxx *wcd9xxx, unsigned short reg);
+#ifdef CONFIG_SOUND_CONTROL_HAX_3_GPL
+int wcd9xxx_reg_read_safe(struct wcd9xxx *wcd9xxx, unsigned short reg);
+#endif
+int wcd9xxx_reg_write(struct wcd9xxx *wcd9xxx, unsigned short reg,
+		u8 val);
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 int wcd9xxx_interface_reg_read(struct wcd9xxx *wcd9xxx, unsigned short reg);
 int wcd9xxx_interface_reg_write(struct wcd9xxx *wcd9xxx, unsigned short reg,
 		u8 val);

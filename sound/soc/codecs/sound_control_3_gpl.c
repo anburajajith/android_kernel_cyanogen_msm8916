@@ -187,15 +187,52 @@ EXPORT_SYMBOL(snd_hax_reg_access);
 #include <linux/mfd/wcd9xxx/wcd9310_registers.h>
 
 #define SOUND_CONTROL_MAJOR_VERSION	3
-#define SOUND_CONTROL_MINOR_VERSION	0
+#define SOUND_CONTROL_MINOR_VERSION	1
 
 extern struct snd_soc_codec *fauxsound_codec_ptr;
+
+static int snd_ctrl_locked = 0;
 
 unsigned int tabla_read(struct snd_soc_codec *codec, unsigned int reg);
 int tabla_write(struct snd_soc_codec *codec, unsigned int reg,
 		unsigned int value);
 
+<<<<<<< HEAD
 >>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
+=======
+int reg_access(unsigned int reg)
+{
+	int ret = 1;
+
+	switch (reg) {
+		case TABLA_A_CDC_RX1_VOL_CTL_B2_CTL:
+		case TABLA_A_CDC_RX2_VOL_CTL_B2_CTL:
+		case TABLA_A_CDC_RX3_VOL_CTL_B2_CTL:
+		case TABLA_A_CDC_RX4_VOL_CTL_B2_CTL:
+		case TABLA_A_CDC_RX5_VOL_CTL_B2_CTL:
+		case TABLA_A_CDC_RX6_VOL_CTL_B2_CTL:
+		case TABLA_A_CDC_RX7_VOL_CTL_B2_CTL:
+		case TABLA_A_CDC_TX1_VOL_CTL_GAIN:
+		case TABLA_A_CDC_TX2_VOL_CTL_GAIN:
+		case TABLA_A_CDC_TX3_VOL_CTL_GAIN:
+		case TABLA_A_CDC_TX4_VOL_CTL_GAIN:
+		case TABLA_A_CDC_TX5_VOL_CTL_GAIN:
+		case TABLA_A_CDC_TX6_VOL_CTL_GAIN:
+		case TABLA_A_CDC_TX7_VOL_CTL_GAIN:
+		case TABLA_A_CDC_TX8_VOL_CTL_GAIN:
+		case TABLA_A_CDC_TX9_VOL_CTL_GAIN:
+		case TABLA_A_CDC_TX10_VOL_CTL_GAIN:
+			if (snd_ctrl_locked)
+				ret = 0;
+			break;
+		default:
+			break;
+	}
+	return ret;
+}
+EXPORT_SYMBOL(reg_access);
+
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 static bool calc_checksum(unsigned int a, unsigned int b, unsigned int c)
 {
 	unsigned char chksum = 0;
@@ -213,11 +250,15 @@ static ssize_t cam_mic_gain_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
         return sprintf(buf, "%u\n",
 		taiko_read(fauxsound_codec_ptr,
 			TAIKO_A_CDC_TX3_VOL_CTL_GAIN));
 =======
         return sprintf(buf, "%u",
+=======
+        return sprintf(buf, "%u\n",
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 		tabla_read(fauxsound_codec_ptr,
 			TABLA_A_CDC_TX6_VOL_CTL_GAIN));
 >>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
@@ -247,11 +288,15 @@ static ssize_t mic_gain_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	return sprintf(buf, "%u\n",
 		taiko_read(fauxsound_codec_ptr,
 			TAIKO_A_CDC_TX2_VOL_CTL_GAIN));
 =======
 	return sprintf(buf, "%u",
+=======
+	return sprintf(buf, "%u\n",
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 		tabla_read(fauxsound_codec_ptr,
 			TABLA_A_CDC_TX7_VOL_CTL_GAIN));
 >>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
@@ -281,6 +326,7 @@ static ssize_t speaker_gain_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
         return sprintf(buf, "%u %u\n",
 			taiko_read(fauxsound_codec_ptr,
 				TAIKO_A_CDC_RX7_VOL_CTL_B2_CTL),
@@ -288,6 +334,9 @@ static ssize_t speaker_gain_show(struct kobject *kobj,
 				TAIKO_A_CDC_RX7_VOL_CTL_B2_CTL));
 =======
         return sprintf(buf, "%u %u",
+=======
+        return sprintf(buf, "%u %u\n",
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 			tabla_read(fauxsound_codec_ptr,
 				TABLA_A_CDC_RX3_VOL_CTL_B2_CTL),
 			tabla_read(fauxsound_codec_ptr,
@@ -323,6 +372,7 @@ static ssize_t headphone_gain_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	return sprintf(buf, "%u %u\n",
 			taiko_read(fauxsound_codec_ptr,
 				TAIKO_A_CDC_RX1_VOL_CTL_B2_CTL),
@@ -330,6 +380,9 @@ static ssize_t headphone_gain_show(struct kobject *kobj,
 				TAIKO_A_CDC_RX2_VOL_CTL_B2_CTL));
 =======
 	return sprintf(buf, "%u %u",
+=======
+	return sprintf(buf, "%u %u\n",
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 			tabla_read(fauxsound_codec_ptr,
 				TABLA_A_CDC_RX1_VOL_CTL_B2_CTL),
 			tabla_read(fauxsound_codec_ptr,
@@ -364,11 +417,15 @@ static ssize_t headphone_pa_gain_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	return sprintf(buf, "%u %u\n",
 		taiko_read(fauxsound_codec_ptr, TAIKO_A_RX_HPH_L_GAIN),
 		taiko_read(fauxsound_codec_ptr, TAIKO_A_RX_HPH_R_GAIN));
 =======
 	return sprintf(buf, "%u %u",
+=======
+	return sprintf(buf, "%u %u\n",
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 		tabla_read(fauxsound_codec_ptr, TABLA_A_RX_HPH_L_GAIN),
 		tabla_read(fauxsound_codec_ptr, TABLA_A_RX_HPH_R_GAIN));
 >>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
@@ -473,6 +530,9 @@ static ssize_t sound_control_version_show(struct kobject *kobj, struct kobj_attr
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 static ssize_t sound_control_locked_store(struct kobject *kobj,
                 struct kobj_attribute *attr, const char *buf, size_t count)
 {
@@ -480,17 +540,29 @@ static ssize_t sound_control_locked_store(struct kobject *kobj,
 
 	sscanf(buf, "%d", &inp);
 
+<<<<<<< HEAD
 	snd_ctrl_locked = inp;
+=======
+	if (inp == 0)
+		snd_ctrl_locked = 0;
+	else
+		snd_ctrl_locked = 1;
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 
 	return count;
 }
 
+<<<<<<< HEAD
 static ssize_t sound_control_locked_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
+=======
+static ssize_t sound_control_locked_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 {
         return sprintf(buf, "%d\n", snd_ctrl_locked);
 }
 
+<<<<<<< HEAD
 static ssize_t sound_control_rec_locked_store(struct kobject *kobj,
                 struct kobj_attribute *attr, const char *buf, size_t count)
 {
@@ -529,6 +601,8 @@ static struct kobj_attribute sound_reg_write_attribute =
 
 =======
 >>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
+=======
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 static struct kobj_attribute cam_mic_gain_attribute =
 	__ATTR(gpl_cam_mic_gain,
 		0666,
@@ -560,12 +634,16 @@ static struct kobj_attribute headphone_pa_gain_attribute =
 		headphone_pa_gain_store);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 static struct kobj_attribute sound_control_locked_attribute =
 	__ATTR(gpl_sound_control_locked,
 		0666,
 		sound_control_locked_show,
 		sound_control_locked_store);
 
+<<<<<<< HEAD
 static struct kobj_attribute sound_control_rec_locked_attribute =
 	__ATTR(gpl_sound_control_rec_locked,
 		0666,
@@ -574,6 +652,8 @@ static struct kobj_attribute sound_control_rec_locked_attribute =
 
 =======
 >>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
+=======
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 static struct kobj_attribute sound_control_version_attribute =
 	__ATTR(gpl_sound_control_version,
 		0444,
@@ -595,6 +675,7 @@ static struct attribute *sound_control_attrs[] =
 		&headphone_gain_attribute.attr,
 		&headphone_pa_gain_attribute.attr,
 <<<<<<< HEAD
+<<<<<<< HEAD
 		&sound_control_locked_attribute.attr,
 		&sound_control_rec_locked_attribute.attr,
 		&sound_reg_sel_attribute.attr,
@@ -603,6 +684,9 @@ static struct attribute *sound_control_attrs[] =
 		&sound_hw_revision_attribute.attr,
 =======
 >>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
+=======
+		&sound_control_locked_attribute.attr,
+>>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
 		&sound_control_version_attribute.attr,
 		NULL,
 	};
