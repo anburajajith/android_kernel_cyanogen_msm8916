@@ -187,7 +187,7 @@ EXPORT_SYMBOL(snd_hax_reg_access);
 #include <linux/mfd/wcd9xxx/wcd9310_registers.h>
 
 #define SOUND_CONTROL_MAJOR_VERSION	3
-#define SOUND_CONTROL_MINOR_VERSION	2
+#define SOUND_CONTROL_MINOR_VERSION	3
 
 #define REG_SZ	21
 
@@ -612,10 +612,44 @@ static ssize_t sound_reg_write_store(struct kobject *kobj,
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 static ssize_t sound_control_hw_revision_show (struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
 	return sprintf(buf, "hw_revision: %i\n", wcd9xxx_hw_revision);
+=======
+static unsigned int selected_reg = 0xdeadbeef;
+
+static ssize_t sound_reg_select_store(struct kobject *kobj,
+                struct kobj_attribute *attr, const char *buf, size_t count)
+{
+        sscanf(buf, "%u", &selected_reg);
+
+	return count;
+}
+
+static ssize_t sound_reg_read_show(struct kobject *kobj,
+                struct kobj_attribute *attr, char *buf)
+{
+	if (selected_reg == 0xdeadbeef)
+		return -1;
+	else
+		return sprintf(buf, "%u\n",
+			tabla_read(fauxsound_codec_ptr, selected_reg));
+}
+
+static ssize_t sound_reg_write_store(struct kobject *kobj,
+                struct kobj_attribute *attr, const char *buf, size_t count)
+{
+        unsigned int out, chksum;
+
+	sscanf(buf, "%u %u", &out, &chksum);
+	if (calc_checksum(out, 0, chksum)) {
+		if (selected_reg != 0xdeadbeef)
+			tabla_write(fauxsound_codec_ptr, selected_reg, out);
+	}
+	return count;
+>>>>>>> 458aae2... Sound Control: expose direct register manipulations to userspace
 }
 
 static ssize_t sound_control_version_show(struct kobject *kobj,
@@ -667,6 +701,7 @@ static ssize_t sound_control_locked_show(struct kobject *kobj, struct kobj_attri
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 static ssize_t sound_control_rec_locked_store(struct kobject *kobj,
                 struct kobj_attribute *attr, const char *buf, size_t count)
 {
@@ -685,6 +720,8 @@ static ssize_t sound_control_rec_locked_show(struct kobject *kobj,
         return sprintf(buf, "%d\n", snd_rec_ctrl_locked);
 }
 
+=======
+>>>>>>> 458aae2... Sound Control: expose direct register manipulations to userspace
 static struct kobj_attribute sound_reg_sel_attribute =
 	__ATTR(sound_reg_sel,
 		0222,
@@ -703,10 +740,13 @@ static struct kobj_attribute sound_reg_write_attribute =
 		NULL,
 		sound_reg_write_store);
 
+<<<<<<< HEAD
 =======
 >>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
 =======
 >>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
+=======
+>>>>>>> 458aae2... Sound Control: expose direct register manipulations to userspace
 static struct kobj_attribute cam_mic_gain_attribute =
 	__ATTR(gpl_cam_mic_gain,
 		0666,
@@ -790,7 +830,13 @@ static struct attribute *sound_control_attrs[] =
 >>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
 =======
 		&sound_control_locked_attribute.attr,
+<<<<<<< HEAD
 >>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
+=======
+		&sound_reg_sel_attribute.attr,
+		&sound_reg_read_attribute.attr,
+		&sound_reg_write_attribute.attr,
+>>>>>>> 458aae2... Sound Control: expose direct register manipulations to userspace
 		&sound_control_version_attribute.attr,
 		NULL,
 	};
