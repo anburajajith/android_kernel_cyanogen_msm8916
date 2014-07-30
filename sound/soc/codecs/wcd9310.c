@@ -9020,6 +9020,8 @@ struct snd_kcontrol_new *gpl_faux_snd_controls_ptr =
 		(struct snd_kcontrol_new *)tabla_snd_controls;
 struct snd_soc_codec *fauxsound_codec_ptr;
 EXPORT_SYMBOL(fauxsound_codec_ptr);
+int wcd9xxx_hw_revision;
+EXPORT_SYMBOL(wcd9xxx_hw_revision);
 #endif
 
 static int tabla_codec_probe(struct snd_soc_codec *codec)
@@ -9041,6 +9043,12 @@ static int tabla_codec_probe(struct snd_soc_codec *codec)
 	control = codec->control_data;
 	core_res = &control->core_res;
 
+#ifdef CONFIG_SOUND_CONTROL_HAX_3_GPL
+	if (TABLA_IS_2_0(control->version))
+		wcd9xxx_hw_revision = 1;
+	else
+		wcd9xxx_hw_revision = 2;
+#endif
 	tabla = kzalloc(sizeof(struct tabla_priv), GFP_KERNEL);
 
 	if (!tabla) {
