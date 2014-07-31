@@ -208,7 +208,7 @@ int tabla_write(struct snd_soc_codec *codec, unsigned int reg,
 int reg_access(unsigned int reg)
 =======
 
-static unsigned int cached_regs[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+static unsigned int cached_regs[] = {6, 6, 0, 0, 0, 0, 0, 0, 0, 0,
 			    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			    0 };
 
@@ -306,9 +306,8 @@ int snd_hax_reg_access(unsigned int reg)
 		case TABLA_A_RX_HPH_R_GAIN:
 		case TABLA_A_RX_HPH_L_STATUS:
 		case TABLA_A_RX_HPH_R_STATUS:
-			if (wcd9xxx_hw_revision == 1)
-				if (snd_ctrl_locked)
-					ret = 0;
+			if (snd_ctrl_locked > 1)
+				ret = 0;
 			break;
 		case TABLA_A_CDC_RX1_VOL_CTL_B2_CTL:
 		case TABLA_A_CDC_RX2_VOL_CTL_B2_CTL:
@@ -317,7 +316,7 @@ int snd_hax_reg_access(unsigned int reg)
 		case TABLA_A_CDC_RX5_VOL_CTL_B2_CTL:
 		case TABLA_A_CDC_RX6_VOL_CTL_B2_CTL:
 		case TABLA_A_CDC_RX7_VOL_CTL_B2_CTL:
-			if (snd_ctrl_locked)
+			if (snd_ctrl_locked > 0)
 				ret = 0;
 			break;
 		case TABLA_A_CDC_TX1_VOL_CTL_GAIN:
@@ -330,7 +329,7 @@ int snd_hax_reg_access(unsigned int reg)
 		case TABLA_A_CDC_TX8_VOL_CTL_GAIN:
 		case TABLA_A_CDC_TX9_VOL_CTL_GAIN:
 		case TABLA_A_CDC_TX10_VOL_CTL_GAIN:
-			if (snd_ctrl_locked)
+			if (snd_ctrl_locked > 0)
 				ret = 0;
 			break;
 		default:
@@ -601,22 +600,18 @@ static ssize_t sound_reg_write_store(struct kobject *kobj,
 =======
 	gain = tabla_read(fauxsound_codec_ptr, TABLA_A_RX_HPH_L_GAIN);
 	out = (gain & 0xf0) | lval;
-	if (wcd9xxx_hw_revision == 1)
 	tabla_write(fauxsound_codec_ptr, TABLA_A_RX_HPH_L_GAIN, out);
 
 	status = tabla_read(fauxsound_codec_ptr, TABLA_A_RX_HPH_L_STATUS);
 	out = (status & 0x0f) | (lval << 4);
-	if (wcd9xxx_hw_revision == 1)
 	tabla_write(fauxsound_codec_ptr, TABLA_A_RX_HPH_L_STATUS, out);
 
 	gain = tabla_read(fauxsound_codec_ptr, TABLA_A_RX_HPH_R_GAIN);
 	out = (gain & 0xf0) | rval;
-	if (wcd9xxx_hw_revision == 1)
 	tabla_write(fauxsound_codec_ptr, TABLA_A_RX_HPH_R_GAIN, out);
 
 	status = tabla_read(fauxsound_codec_ptr, TABLA_A_RX_HPH_R_STATUS);
 	out = (status & 0x0f) | (rval << 4);
-	if(wcd9xxx_hw_revision == 1)
 	tabla_write(fauxsound_codec_ptr, TABLA_A_RX_HPH_R_STATUS, out);
 >>>>>>> b10d857... sound control 3.x: Initial GPL release for WCD9310 Audio Codec
 	}
@@ -698,6 +693,7 @@ static ssize_t sound_control_locked_store(struct kobject *kobj,
 	sscanf(buf, "%d", &inp);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	snd_ctrl_locked = inp;
 =======
 	if (inp == 0)
@@ -705,6 +701,9 @@ static ssize_t sound_control_locked_store(struct kobject *kobj,
 	else
 		snd_ctrl_locked = 1;
 >>>>>>> 91ec466... Sound Control: (Optional) work around for WCD93xx audio issues
+=======
+	snd_ctrl_locked = inp;
+>>>>>>> 1078241... Sound Control: let register lock be dependent on different hw revisions
 
 	return count;
 }
