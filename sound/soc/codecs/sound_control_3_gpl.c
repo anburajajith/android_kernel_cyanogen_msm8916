@@ -753,7 +753,7 @@ static ssize_t sound_control_rec_locked_show(struct kobject *kobj,
 =======
 static ssize_t sound_control_rec_locked_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
 {
-	return sprintf(buf, "%d\n", snd_ctrl_locked);
+	return sprintf(buf, "%d\n", snd_rec_ctrl_locked);
 }
 
 >>>>>>> 51ff90b... Sound Control: separate locking mechanism for recording and playback
