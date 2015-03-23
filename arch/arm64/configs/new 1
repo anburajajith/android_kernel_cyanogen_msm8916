@@ -1,0 +1,1 @@
+git fetch https://github.com/PMS22/PMSKernel_cyanogen_msm8916.git staging/cm-13.0-lettuce && git cherry-pick 2f930488ca38c14980b7be36b57d7116967573d8^..727b2e37b283c1800c1d8b936bb532cbe92e038c
