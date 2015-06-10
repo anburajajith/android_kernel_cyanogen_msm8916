@@ -25,6 +25,12 @@
  * calculating idle frequency(mostly by ondemand's method).
  * The higher frequencies are not touched with this algorithm, so high-demanding
  * games will (most likely) not suffer from worsened performance.
+<<<<<<< HEAD
+=======
+ *
+ * The additional idle_lasttime detects if last 500ms was idle before
+ * ramping down the frequency to prevent micro-lags on scrolling or playing games.
+>>>>>>> 0e5c879... Adreno idler
  */
 
 #include <linux/module.h>
@@ -32,6 +38,7 @@
 #include <linux/msm_adreno_devfreq.h>
 
 #define ADRENO_IDLER_MAJOR_VERSION 1
+<<<<<<< HEAD
 #define ADRENO_IDLER_MINOR_VERSION 1
 
 /* stats.busy_time threshold for determining if the given workload is idle.
@@ -59,6 +66,38 @@ static bool adreno_idler_active = true;
 module_param_named(adreno_idler_active, adreno_idler_active, bool, 0664);
 
 static unsigned int idlecount = 0;
+=======
+#define ADRENO_IDLER_MINOR_VERSION 0
+
+/* stats.busy_time threshold for determining if the given workload is idle.
+   Any workload higher than this will be treated as non-idle workload,
+   meaning the higher it gets, the slower & low-power it would get. */
+static int idleworkload = 5000;
+module_param_named(adreno_idler_idleworkload, idleworkload, int, 0664);
+
+/* Time to wait for entering idle, measured in milliseconds.
+   This implementation is to prevent micro-lags on scrolling or playing games,
+   meaning the lower it gets, the slower & low-power it would get. */
+static int idlewaitms = 500;
+module_param_named(adreno_idler_idlewaitms, idlewaitms, int, 0664);
+
+/* Taken from ondemand */
+static int downdifferenctial = 20;
+module_param_named(adreno_idler_downdifferenctial, downdifferenctial, int, 0664);
+
+/* Master switch to activate whole routine */
+static int adreno_idler_active = 1;
+module_param_named(adreno_idler_active, adreno_idler_active, int, 0664);
+
+static inline int64_t get_time_inms(void) {
+	int64_t tinms;
+	struct timespec cur_time = current_kernel_time();
+	tinms  = cur_time.tv_sec  * MSEC_PER_SEC;
+	tinms += cur_time.tv_nsec / NSEC_PER_MSEC;
+	return tinms;
+}
+static int64_t idle_lasttime = 0;
+>>>>>>> 0e5c879... Adreno idler
 
 int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq,
 		 unsigned long *freq)
@@ -68,6 +107,7 @@ int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq,
 
 	if (stats.busy_time < idleworkload) {
 		/* busy_time >= idleworkload should be considered as a non-idle workload. */
+<<<<<<< HEAD
 		idlecount++;
 		if (*freq == devfreq->profile->freq_table[devfreq->profile->max_state - 1]) {
 			/* Frequency is already at its lowest.
@@ -86,6 +126,29 @@ int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq,
 		/* Do not return 1 here and allow rest of the algorithm to
 		   figure out the appropriate frequency for current workload.
 		   It can even set it back to the lowest frequency. */
+=======
+		if (!idle_lasttime)
+			idle_lasttime = get_time_inms();
+		if (*freq == devfreq->profile->freq_table[devfreq->profile->max_state - 1]) {
+			/* frequency is already at its lowest.
+			   No need to calculate things, so bail out. */
+			return 1;
+		}
+		if (idle_lasttime + idlewaitms <= get_time_inms() &&
+		    stats.busy_time * 100 < stats.total_time * downdifferenctial) {
+			/* We are idle for idlewaitms! Ramp down the frequency now. */
+			*freq = devfreq->profile->freq_table[devfreq->profile->max_state - 1];
+			return 1;
+		}
+	} else {
+		/* This is the case where msm-adreno-tz don't use the lowest frequency.
+		   Mimic this behavior by bumping up the frequency. */
+		idle_lasttime = 0;
+		*freq = devfreq->profile->freq_table[devfreq->profile->max_state - 2];
+		/* Do not return 1 here and allow rest of the algorithm to
+		   figure out the appropriate frequency for current workload.
+		   It can even set it back to lowest frequency. */
+>>>>>>> 0e5c879... Adreno idler
 	}
 	return 0;
 }
