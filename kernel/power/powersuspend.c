@@ -138,6 +138,7 @@ abort_resume:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 bool power_suspend = false;
 =======
 bool power_suspended = false;
@@ -145,6 +146,9 @@ bool power_suspended = false;
 =======
 bool power_suspend = false;
 >>>>>>> f3c1c59... Add power_suspend boolean variable
+=======
+bool power_suspended = false;
+>>>>>>> 7494879... Fix typo
 
 void set_power_suspend_state(int new_state)
 {
@@ -158,6 +162,7 @@ void set_power_suspend_state(int new_state)
 		state = new_state;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 power_suspend = true;
 =======
 		power_suspended = true;
@@ -165,12 +170,16 @@ void set_power_suspend_state(int new_state)
 =======
                 power_suspend = true;
 >>>>>>> f3c1c59... Add power_suspend boolean variable
+=======
+                power_suspended = true;
+>>>>>>> 7494879... Fix typo
 		queue_work(suspend_work_queue, &power_suspend_work);
 	} else if (state == POWER_SUSPEND_ACTIVE && new_state == POWER_SUSPEND_INACTIVE) {
 		#ifdef POWER_SUSPEND_DEBUG
 		pr_info("[POWERSUSPEND] state deactivated.\n");
 		#endif
 		state = new_state;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                 power_suspend = false;	
@@ -181,6 +190,9 @@ void set_power_suspend_state(int new_state)
 >>>>>>> 4ebcc6f... Powersuspend: add power_suspended boolean for global access
 =======
                 power_suspend = false;	
+=======
+                power_suspended = false;	
+>>>>>>> 7494879... Fix typo
           	queue_work(suspend_work_queue, &power_resume_work);
 >>>>>>> f3c1c59... Add power_suspend boolean variable
 	}
