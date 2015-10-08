@@ -137,10 +137,14 @@ abort_resume:
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 bool power_suspend = false;
 =======
 bool power_suspended = false;
 >>>>>>> 4ebcc6f... Powersuspend: add power_suspended boolean for global access
+=======
+bool power_suspend = false;
+>>>>>>> f3c1c59... Add power_suspend boolean variable
 
 void set_power_suspend_state(int new_state)
 {
@@ -153,10 +157,14 @@ void set_power_suspend_state(int new_state)
 		#endif
 		state = new_state;
 <<<<<<< HEAD
+<<<<<<< HEAD
                 power_suspend = true;
 =======
 		power_suspended = true;
 >>>>>>> 4ebcc6f... Powersuspend: add power_suspended boolean for global access
+=======
+                power_suspend = true;
+>>>>>>> f3c1c59... Add power_suspend boolean variable
 		queue_work(suspend_work_queue, &power_suspend_work);
 	} else if (state == POWER_SUSPEND_ACTIVE && new_state == POWER_SUSPEND_INACTIVE) {
 		#ifdef POWER_SUSPEND_DEBUG
@@ -164,12 +172,17 @@ void set_power_suspend_state(int new_state)
 		#endif
 		state = new_state;
 <<<<<<< HEAD
+<<<<<<< HEAD
                 power_suspend = false;	
           	queue_work(suspend_work_queue, &power_resume_work);
 =======
 		power_suspended = false;
 		queue_work(suspend_work_queue, &power_resume_work);
 >>>>>>> 4ebcc6f... Powersuspend: add power_suspended boolean for global access
+=======
+                power_suspend = false;	
+          	queue_work(suspend_work_queue, &power_resume_work);
+>>>>>>> f3c1c59... Add power_suspend boolean variable
 	}
 	spin_unlock_irqrestore(&state_lock, irqflags);
 }
