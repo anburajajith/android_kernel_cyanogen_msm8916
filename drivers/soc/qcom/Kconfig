@@ -678,6 +678,9 @@ config ALUCARD_HOTPLUG
 	help
 	  Generic Alucard-hotplug cpu hotplug driver for ARM SOCs
 
+<<<<<<< HEAD
+>>>>>>> ec043e4... Add Alucard Hotplug
+=======
 >>>>>>> ec043e4... Add Alucard Hotplug
 source "drivers/soc/qcom/memshare/Kconfig"
 
