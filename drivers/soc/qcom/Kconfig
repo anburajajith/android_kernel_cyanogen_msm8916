@@ -679,6 +679,9 @@ config ALUCARD_HOTPLUG
 	  Generic Alucard-hotplug cpu hotplug driver for ARM SOCs
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> ec043e4... Add Alucard Hotplug
+=======
 >>>>>>> ec043e4... Add Alucard Hotplug
 =======
 >>>>>>> ec043e4... Add Alucard Hotplug
