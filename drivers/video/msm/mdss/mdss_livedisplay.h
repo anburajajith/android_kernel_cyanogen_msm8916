@@ -91,7 +91,10 @@ enum {
 	MODE_COLOR_ENHANCE	= 0x08,
 	MODE_PRESET		= 0x10,
 	MODE_RGB		= 0x20,
+<<<<<<< HEAD
 	MODE_CABC_COLOR_ENHANCE	= 0x40,
+=======
+>>>>>>> c93b41c... video: mdss: Improve the LiveDisplay driver
 	MODE_UPDATE_ALL		= 0xFF,
 };
 
