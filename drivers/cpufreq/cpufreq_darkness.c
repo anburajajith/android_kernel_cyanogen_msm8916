@@ -12,6 +12,7 @@
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
+<<<<<<< HEAD
  * 
  * Created by Alucard_24@xda
  */
@@ -24,11 +25,28 @@
 #include <linux/jiffies.h>
 #include <linux/kernel_stat.h>
 #include <linux/mutex.h>
+=======
+ *
+ * Created by Alucard_24@xda
+ */
+
+#include <linux/cpu.h>
+#include <linux/cpufreq.h>
+#include <linux/slab.h>
+#include <linux/kernel_stat.h>
+#include <linux/module.h>
+#include <linux/mutex.h>
+#include <linux/jiffies.h>
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 #include <linux/hrtimer.h>
 #include <linux/tick.h>
 #include <linux/ktime.h>
 #include <linux/sched.h>
+<<<<<<< HEAD
 #include <linux/slab.h>
+=======
+
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 /*
  * dbs is used in this file as a shortform for demandbased switching
  * It helps to keep variable names smaller, simpler
@@ -81,6 +99,7 @@ static atomic_t max_freq_limit[NR_CPUS];*/
 /* darkness tuners */
 static struct darkness_tuners {
 	atomic_t sampling_rate;
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 	atomic_t up_sf_step;
 	atomic_t down_sf_step;
@@ -115,6 +134,12 @@ static int freqs_step[16][4]={
 	{ 100000, 100000, 100000, 100000}
 };
 #endif
+=======
+} darkness_tuners_ins = {
+	.sampling_rate = ATOMIC_INIT(60000),
+};
+
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 
 /************************** sysfs interface ************************/
 
@@ -126,6 +151,7 @@ static ssize_t show_##file_name						\
 	return sprintf(buf, "%d\n", atomic_read(&darkness_tuners_ins.object));		\
 }
 show_one(sampling_rate, sampling_rate);
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 show_one(up_sf_step, up_sf_step);
 show_one(down_sf_step, down_sf_step);
@@ -196,6 +222,22 @@ define_one_global_rw(max_freq_limit_1);
 define_one_global_rw(max_freq_limit_2);
 define_one_global_rw(max_freq_limit_3);
 #endif*/
+=======
+
+static ssize_t show_cpucore_table(struct kobject *kobj,
+				struct attribute *attr, char *buf)
+{
+	ssize_t count = 0;
+	int i;
+
+	for (i = CONFIG_NR_CPUS; i > 0; i--) {
+		count += sprintf(&buf[count], "%d ", i);
+	}
+	count += sprintf(&buf[count], "\n");
+
+	return count;
+}
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 
 /**
  * update_sampling_rate - update sampling rate effective immediately if needed.
@@ -216,7 +258,10 @@ static void update_sampling_rate(unsigned int new_rate)
 
 	atomic_set(&darkness_tuners_ins.sampling_rate,new_rate);
 
+<<<<<<< HEAD
 	get_online_cpus();
+=======
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 	for_each_online_cpu(cpu) {
 		struct cpufreq_policy *policy;
 		struct cpufreq_darkness_cpuinfo *darkness_cpuinfo;
@@ -253,7 +298,10 @@ static void update_sampling_rate(unsigned int new_rate)
 		}
 		mutex_unlock(&darkness_cpuinfo->timer_mutex);
 	}
+<<<<<<< HEAD
 	put_online_cpus();
+=======
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 }
 
 /* sampling_rate */
@@ -268,7 +316,11 @@ static ssize_t store_sampling_rate(struct kobject *a, struct attribute *b,
 		return -EINVAL;
 
 	input = max(input,10000);
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 	if (input == atomic_read(&darkness_tuners_ins.sampling_rate))
 		return count;
 
@@ -276,6 +328,7 @@ static ssize_t store_sampling_rate(struct kobject *a, struct attribute *b,
 
 	return count;
 }
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 /* up_sf_step */
 static ssize_t store_up_sf_step(struct kobject *a, struct attribute *b,
@@ -367,6 +420,15 @@ static struct attribute *darkness_attributes[] = {
 	&max_freq_limit_2.attr,
 	&max_freq_limit_3.attr,
 #endif*/
+=======
+
+define_one_global_rw(sampling_rate);
+define_one_global_ro(cpucore_table);
+
+static struct attribute *darkness_attributes[] = {
+	&sampling_rate.attr,
+	&cpucore_table.attr,
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 	NULL
 };
 
@@ -382,6 +444,7 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 	struct cpufreq_policy *cpu_policy;
 	unsigned int min_freq;
 	unsigned int max_freq;
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 	int up_sf_step;
 	int down_sf_step;
@@ -390,6 +453,9 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 	unsigned int i;
 #endif
 	cputime64_t cur_wall_time, cur_idle_time;
+=======
+	u64 cur_wall_time, cur_idle_time;
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 	unsigned int wall_time, idle_time;
 	unsigned int index = 0;
 	unsigned int next_freq = 0;
@@ -397,7 +463,11 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 	unsigned int cpu;
 
 	cpu = this_darkness_cpuinfo->cpu;
+<<<<<<< HEAD
 	cpu_policy = this_darkness_cpuinfo->cur_policy;	
+=======
+	cpu_policy = this_darkness_cpuinfo->cur_policy;
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 
 	cur_idle_time = get_cpu_idle_time_us(cpu, NULL);
 	cur_idle_time += get_cpu_iowait_time_us(cpu, &cur_wall_time);
@@ -412,11 +482,14 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 
 	/*min_freq = atomic_read(&min_freq_limit[cpu]);
 	max_freq = atomic_read(&max_freq_limit[cpu]);*/
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 	up_sf_step = atomic_read(&darkness_tuners_ins.up_sf_step);
 	down_sf_step = atomic_read(&darkness_tuners_ins.down_sf_step);
 	force_freq_steps = atomic_read(&darkness_tuners_ins.force_freqs_step);
 #endif
+=======
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 
 	if (!cpu_policy)
 		return;
@@ -432,6 +505,7 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 		min_freq = cpu_policy->min;
 		max_freq = cpu_policy->max;
 		/* CPUs Online Scale Frequency*/
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 		tmp_freq = max(min(cur_load * (max_freq / 100), max_freq), min_freq);
 		if (force_freq_steps == 0) {
@@ -451,6 +525,8 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 			}
 		}
 #else
+=======
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 		next_freq = max(min(cur_load * (max_freq / 100), max_freq), min_freq);
 		cpufreq_frequency_table_target(cpu_policy, this_darkness_cpuinfo->freq_table, next_freq,
 			CPUFREQ_RELATION_H, &index);
@@ -459,8 +535,11 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 				CPUFREQ_RELATION_L, &index);
 		}
 		next_freq = this_darkness_cpuinfo->freq_table[index].frequency;
+<<<<<<< HEAD
 #endif
 		/*printk(KERN_ERR "FREQ CALC.: CPU[%u], load[%d], target freq[%u], cur freq[%u], min freq[%u], max_freq[%u]\n",cpu, cur_load, next_freq, cpu_policy->cur, cpu_policy->min, max_freq);*/
+=======
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 		if (next_freq != cpu_policy->cur && cpu_online(cpu)) {
 			__cpufreq_driver_target(cpu_policy, next_freq, CPUFREQ_RELATION_L);
 		}
@@ -487,11 +566,15 @@ static void do_darkness_timer(struct work_struct *work)
 		delay -= jiffies % delay;
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 	mod_delayed_work_on(cpu, system_wq, &darkness_cpuinfo->work, delay);
 #else
 	queue_delayed_work_on(cpu, system_wq, &darkness_cpuinfo->work, delay);
 #endif
+=======
+	queue_delayed_work_on(cpu, system_wq, &darkness_cpuinfo->work, delay);
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 	mutex_unlock(&darkness_cpuinfo->timer_mutex);
 }
 
@@ -507,7 +590,11 @@ static int cpufreq_governor_darkness(struct cpufreq_policy *policy,
 
 	switch (event) {
 	case CPUFREQ_GOV_START:
+<<<<<<< HEAD
 		if ((!cpu_online(cpu)) || (!policy->cur))
+=======
+		if (!policy->cur)
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 			return -EINVAL;
 
 		mutex_lock(&darkness_mutex);
@@ -550,6 +637,7 @@ static int cpufreq_governor_darkness(struct cpufreq_policy *policy,
 		}
 
 		this_darkness_cpuinfo->enable = 1;
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 		INIT_DEFERRABLE_WORK(&this_darkness_cpuinfo->work, do_darkness_timer);
 		mod_delayed_work_on(this_darkness_cpuinfo->cpu, system_wq, &this_darkness_cpuinfo->work, delay);
@@ -557,6 +645,10 @@ static int cpufreq_governor_darkness(struct cpufreq_policy *policy,
 		INIT_DEFERRABLE_WORK(&this_darkness_cpuinfo->work, do_darkness_timer);
 		queue_delayed_work_on(this_darkness_cpuinfo->cpu, system_wq, &this_darkness_cpuinfo->work, delay);
 #endif
+=======
+		INIT_DEFERRABLE_WORK(&this_darkness_cpuinfo->work, do_darkness_timer);
+		queue_delayed_work_on(this_darkness_cpuinfo->cpu, system_wq, &this_darkness_cpuinfo->work, delay);
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 
 		break;
 
@@ -568,12 +660,20 @@ static int cpufreq_governor_darkness(struct cpufreq_policy *policy,
 		darkness_enable--;
 		mutex_destroy(&this_darkness_cpuinfo->timer_mutex);
 
+<<<<<<< HEAD
 		if (!darkness_enable) {
 			sysfs_remove_group(cpufreq_global_kobject,
 					   &darkness_attr_group);			
 		}
 		mutex_unlock(&darkness_mutex);
 		
+=======
+		if (!darkness_enable)
+			sysfs_remove_group(cpufreq_global_kobject,
+					   &darkness_attr_group);
+		mutex_unlock(&darkness_mutex);
+
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 		break;
 
 	case CPUFREQ_GOV_LIMITS:
@@ -602,7 +702,11 @@ static void __exit cpufreq_gov_darkness_exit(void)
 }
 
 MODULE_AUTHOR("Alucard24@XDA");
+<<<<<<< HEAD
 MODULE_DESCRIPTION("'cpufreq_darkness' - A dynamic cpufreq/cpuhotplug governor v4.5 (SnapDragon)");
+=======
+MODULE_DESCRIPTION("'cpufreq_darkness' - A dynamic cpufreq governor");
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 MODULE_LICENSE("GPL");
 
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_DARKNESS
@@ -612,3 +716,7 @@ module_init(cpufreq_gov_darkness_init);
 #endif
 module_exit(cpufreq_gov_darkness_exit);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
