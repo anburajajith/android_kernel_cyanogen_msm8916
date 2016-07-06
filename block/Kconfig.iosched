@@ -99,16 +99,14 @@ config IOSCHED_SIOPLUS
 	  based on noop and deadline, that relies on deadlines to
 	  ensure fairness. The algorithm does not do any sorting but
 	  basic merging, trying to keep a minimum overhead. It is aimed
-mainly for aleatory access devices (eg: flash devices).
+          mainly for aleatory access devices (eg: flash devices).
 
 config IOSCHED_ZEN
 	tristate "Zen I/O scheduler"
 	default y
 	---help---
 	  FCFS, dispatches are back-inserted, deadlines ensure fairness.
-Should work best with devices where there is no travel delay.
-
-
+	  Should work best with devices where there is no travel delay.
 
 choice
 	prompt "Default I/O scheduler"
