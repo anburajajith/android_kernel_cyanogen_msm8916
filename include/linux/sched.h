@@ -165,11 +165,15 @@ extern unsigned long this_cpu_load(void);
 
 <<<<<<< HEAD
 extern void sched_update_nr_prod(int cpu, long delta, bool inc);
+<<<<<<< HEAD
 extern void sched_get_nr_running_avg(int *avg, int *iowait_avg, int *big_avg);
 =======
 extern void sched_update_nr_prod(int cpu, unsigned long nr, bool inc);
 extern void sched_get_nr_running_avg(int *avg, int *iowait_avg);
 >>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
+=======
+extern void sched_get_nr_running_avg(int *avg, int *iowait_avg);
+>>>>>>> parent of c3b9f1c... sched: Keep track of average nr_big_tasks
 
 extern void calc_global_load(unsigned long ticks);
 extern void update_cpu_load_nohz(void);
