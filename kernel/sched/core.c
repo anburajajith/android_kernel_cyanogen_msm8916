@@ -2114,6 +2114,7 @@ void reset_all_window_stats(u64 window_start, unsigned int window_size)
 		rq->curr_runnable_sum = rq->prev_runnable_sum = 0;
 #endif
 <<<<<<< HEAD
+<<<<<<< HEAD
 		reset_cpu_hmp_stats(cpu, 1);
 
 		fixup_nr_big_small_task(cpu, 0);
@@ -2121,6 +2122,10 @@ void reset_all_window_stats(u64 window_start, unsigned int window_size)
 		rq->cumulative_runnable_avg = 0;
 		fixup_nr_big_small_task(cpu);
 >>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
+=======
+		rq->hmp_stats.cumulative_runnable_avg = 0;
+		fixup_nr_big_small_task(cpu);
+>>>>>>> parent of d9a1f5d... sched: Support CFS_BANDWIDTH feature in HMP scheduler
 	}
 
 	if (sched_window_stats_policy != sysctl_sched_window_stats_policy) {

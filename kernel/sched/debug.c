@@ -231,16 +231,6 @@ void print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq)
 			cfs_rq->throttled);
 	SEQ_printf(m, "  .%-30s: %d\n", "throttle_count",
 			cfs_rq->throttle_count);
-	SEQ_printf(m, "  .%-30s: %d\n", "runtime_enabled",
-			cfs_rq->runtime_enabled);
-#ifdef CONFIG_SCHED_HMP
-	SEQ_printf(m, "  .%-30s: %d\n", "nr_big_tasks",
-			cfs_rq->hmp_stats.nr_big_tasks);
-	SEQ_printf(m, "  .%-30s: %d\n", "nr_small_tasks",
-			cfs_rq->hmp_stats.nr_small_tasks);
-	SEQ_printf(m, "  .%-30s: %llu\n", "cumulative_runnable_avg",
-			cfs_rq->hmp_stats.cumulative_runnable_avg);
-#endif
 #endif
 
 	print_cfs_group_stats(m, cpu, cfs_rq->tg);
@@ -327,12 +317,15 @@ do {									\
 <<<<<<< HEAD
 	P(hmp_stats.nr_big_tasks);
 	P(hmp_stats.nr_small_tasks);
+<<<<<<< HEAD
 	SEQ_printf(m, "  .%-30s: %llu\n", "hmp_stats.cumulative_runnable_avg",
 			rq->hmp_stats.cumulative_runnable_avg);
 =======
 	P(nr_big_tasks);
 	P(nr_small_tasks);
 >>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
+=======
+>>>>>>> parent of d9a1f5d... sched: Support CFS_BANDWIDTH feature in HMP scheduler
 #endif
 #undef P
 #undef PN
