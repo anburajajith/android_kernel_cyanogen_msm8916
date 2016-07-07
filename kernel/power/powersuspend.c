@@ -136,7 +136,11 @@ abort_resume:
 	mutex_unlock(&power_suspend_lock);
 }
 
+<<<<<<< HEAD
 bool power_suspend = false;
+=======
+bool power_suspended = false;
+>>>>>>> 4ebcc6f... Powersuspend: add power_suspended boolean for global access
 
 void set_power_suspend_state(int new_state)
 {
@@ -148,15 +152,24 @@ void set_power_suspend_state(int new_state)
 		pr_info("[POWERSUSPEND] state activated.\n");
 		#endif
 		state = new_state;
+<<<<<<< HEAD
                 power_suspend = true;
+=======
+		power_suspended = true;
+>>>>>>> 4ebcc6f... Powersuspend: add power_suspended boolean for global access
 		queue_work(suspend_work_queue, &power_suspend_work);
 	} else if (state == POWER_SUSPEND_ACTIVE && new_state == POWER_SUSPEND_INACTIVE) {
 		#ifdef POWER_SUSPEND_DEBUG
 		pr_info("[POWERSUSPEND] state deactivated.\n");
 		#endif
 		state = new_state;
+<<<<<<< HEAD
                 power_suspend = false;	
           	queue_work(suspend_work_queue, &power_resume_work);
+=======
+		power_suspended = false;
+		queue_work(suspend_work_queue, &power_resume_work);
+>>>>>>> 4ebcc6f... Powersuspend: add power_suspended boolean for global access
 	}
 	spin_unlock_irqrestore(&state_lock, irqflags);
 }

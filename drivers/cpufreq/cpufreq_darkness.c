@@ -13,6 +13,7 @@
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
 <<<<<<< HEAD
+<<<<<<< HEAD
  * 
  * Created by Alucard_24@xda
  */
@@ -26,6 +27,8 @@
 #include <linux/kernel_stat.h>
 #include <linux/mutex.h>
 =======
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
  *
  * Created by Alucard_24@xda
  */
@@ -37,16 +40,23 @@
 #include <linux/module.h>
 #include <linux/mutex.h>
 #include <linux/jiffies.h>
+<<<<<<< HEAD
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 #include <linux/hrtimer.h>
 #include <linux/tick.h>
 #include <linux/ktime.h>
 #include <linux/sched.h>
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <linux/slab.h>
 =======
 
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 /*
  * dbs is used in this file as a shortform for demandbased switching
  * It helps to keep variable names smaller, simpler
@@ -100,6 +110,7 @@ static atomic_t max_freq_limit[NR_CPUS];*/
 static struct darkness_tuners {
 	atomic_t sampling_rate;
 <<<<<<< HEAD
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 	atomic_t up_sf_step;
 	atomic_t down_sf_step;
@@ -135,11 +146,16 @@ static int freqs_step[16][4]={
 };
 #endif
 =======
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 } darkness_tuners_ins = {
 	.sampling_rate = ATOMIC_INIT(60000),
 };
 
+<<<<<<< HEAD
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 
 /************************** sysfs interface ************************/
 
@@ -151,6 +167,7 @@ static ssize_t show_##file_name						\
 	return sprintf(buf, "%d\n", atomic_read(&darkness_tuners_ins.object));		\
 }
 show_one(sampling_rate, sampling_rate);
+<<<<<<< HEAD
 <<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 show_one(up_sf_step, up_sf_step);
@@ -223,6 +240,8 @@ define_one_global_rw(max_freq_limit_2);
 define_one_global_rw(max_freq_limit_3);
 #endif*/
 =======
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 
 static ssize_t show_cpucore_table(struct kobject *kobj,
 				struct attribute *attr, char *buf)
@@ -237,7 +256,10 @@ static ssize_t show_cpucore_table(struct kobject *kobj,
 
 	return count;
 }
+<<<<<<< HEAD
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 
 /**
  * update_sampling_rate - update sampling rate effective immediately if needed.
@@ -259,9 +281,12 @@ static void update_sampling_rate(unsigned int new_rate)
 	atomic_set(&darkness_tuners_ins.sampling_rate,new_rate);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	get_online_cpus();
 =======
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 	for_each_online_cpu(cpu) {
 		struct cpufreq_policy *policy;
 		struct cpufreq_darkness_cpuinfo *darkness_cpuinfo;
@@ -299,9 +324,12 @@ static void update_sampling_rate(unsigned int new_rate)
 		mutex_unlock(&darkness_cpuinfo->timer_mutex);
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 	put_online_cpus();
 =======
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 }
 
 /* sampling_rate */
@@ -317,10 +345,14 @@ static ssize_t store_sampling_rate(struct kobject *a, struct attribute *b,
 
 	input = max(input,10000);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	
 =======
 
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 	if (input == atomic_read(&darkness_tuners_ins.sampling_rate))
 		return count;
 
@@ -328,6 +360,7 @@ static ssize_t store_sampling_rate(struct kobject *a, struct attribute *b,
 
 	return count;
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 /* up_sf_step */
@@ -421,6 +454,8 @@ static struct attribute *darkness_attributes[] = {
 	&max_freq_limit_3.attr,
 #endif*/
 =======
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 
 define_one_global_rw(sampling_rate);
 define_one_global_ro(cpucore_table);
@@ -428,7 +463,10 @@ define_one_global_ro(cpucore_table);
 static struct attribute *darkness_attributes[] = {
 	&sampling_rate.attr,
 	&cpucore_table.attr,
+<<<<<<< HEAD
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 	NULL
 };
 
@@ -445,6 +483,7 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 	unsigned int min_freq;
 	unsigned int max_freq;
 <<<<<<< HEAD
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 	int up_sf_step;
 	int down_sf_step;
@@ -456,6 +495,9 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 =======
 	u64 cur_wall_time, cur_idle_time;
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+	u64 cur_wall_time, cur_idle_time;
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 	unsigned int wall_time, idle_time;
 	unsigned int index = 0;
 	unsigned int next_freq = 0;
@@ -464,10 +506,14 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 
 	cpu = this_darkness_cpuinfo->cpu;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	cpu_policy = this_darkness_cpuinfo->cur_policy;	
 =======
 	cpu_policy = this_darkness_cpuinfo->cur_policy;
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+	cpu_policy = this_darkness_cpuinfo->cur_policy;
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 
 	cur_idle_time = get_cpu_idle_time_us(cpu, NULL);
 	cur_idle_time += get_cpu_iowait_time_us(cpu, &cur_wall_time);
@@ -483,6 +529,7 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 	/*min_freq = atomic_read(&min_freq_limit[cpu]);
 	max_freq = atomic_read(&max_freq_limit[cpu]);*/
 <<<<<<< HEAD
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 	up_sf_step = atomic_read(&darkness_tuners_ins.up_sf_step);
 	down_sf_step = atomic_read(&darkness_tuners_ins.down_sf_step);
@@ -490,6 +537,8 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 #endif
 =======
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 
 	if (!cpu_policy)
 		return;
@@ -505,6 +554,7 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 		min_freq = cpu_policy->min;
 		max_freq = cpu_policy->max;
 		/* CPUs Online Scale Frequency*/
+<<<<<<< HEAD
 <<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 		tmp_freq = max(min(cur_load * (max_freq / 100), max_freq), min_freq);
@@ -527,6 +577,8 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 #else
 =======
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 		next_freq = max(min(cur_load * (max_freq / 100), max_freq), min_freq);
 		cpufreq_frequency_table_target(cpu_policy, this_darkness_cpuinfo->freq_table, next_freq,
 			CPUFREQ_RELATION_H, &index);
@@ -536,10 +588,13 @@ static void darkness_check_cpu(struct cpufreq_darkness_cpuinfo *this_darkness_cp
 		}
 		next_freq = this_darkness_cpuinfo->freq_table[index].frequency;
 <<<<<<< HEAD
+<<<<<<< HEAD
 #endif
 		/*printk(KERN_ERR "FREQ CALC.: CPU[%u], load[%d], target freq[%u], cur freq[%u], min freq[%u], max_freq[%u]\n",cpu, cur_load, next_freq, cpu_policy->cur, cpu_policy->min, max_freq);*/
 =======
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 		if (next_freq != cpu_policy->cur && cpu_online(cpu)) {
 			__cpufreq_driver_target(cpu_policy, next_freq, CPUFREQ_RELATION_L);
 		}
@@ -567,6 +622,7 @@ static void do_darkness_timer(struct work_struct *work)
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 	mod_delayed_work_on(cpu, system_wq, &darkness_cpuinfo->work, delay);
 #else
@@ -575,6 +631,9 @@ static void do_darkness_timer(struct work_struct *work)
 =======
 	queue_delayed_work_on(cpu, system_wq, &darkness_cpuinfo->work, delay);
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+	queue_delayed_work_on(cpu, system_wq, &darkness_cpuinfo->work, delay);
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 	mutex_unlock(&darkness_cpuinfo->timer_mutex);
 }
 
@@ -591,10 +650,14 @@ static int cpufreq_governor_darkness(struct cpufreq_policy *policy,
 	switch (event) {
 	case CPUFREQ_GOV_START:
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if ((!cpu_online(cpu)) || (!policy->cur))
 =======
 		if (!policy->cur)
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+		if (!policy->cur)
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 			return -EINVAL;
 
 		mutex_lock(&darkness_mutex);
@@ -638,6 +701,7 @@ static int cpufreq_governor_darkness(struct cpufreq_policy *policy,
 
 		this_darkness_cpuinfo->enable = 1;
 <<<<<<< HEAD
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_EXYNOS4210
 		INIT_DEFERRABLE_WORK(&this_darkness_cpuinfo->work, do_darkness_timer);
 		mod_delayed_work_on(this_darkness_cpuinfo->cpu, system_wq, &this_darkness_cpuinfo->work, delay);
@@ -649,6 +713,10 @@ static int cpufreq_governor_darkness(struct cpufreq_policy *policy,
 		INIT_DEFERRABLE_WORK(&this_darkness_cpuinfo->work, do_darkness_timer);
 		queue_delayed_work_on(this_darkness_cpuinfo->cpu, system_wq, &this_darkness_cpuinfo->work, delay);
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+		INIT_DEFERRABLE_WORK(&this_darkness_cpuinfo->work, do_darkness_timer);
+		queue_delayed_work_on(this_darkness_cpuinfo->cpu, system_wq, &this_darkness_cpuinfo->work, delay);
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 
 		break;
 
@@ -661,6 +729,7 @@ static int cpufreq_governor_darkness(struct cpufreq_policy *policy,
 		mutex_destroy(&this_darkness_cpuinfo->timer_mutex);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if (!darkness_enable) {
 			sysfs_remove_group(cpufreq_global_kobject,
 					   &darkness_attr_group);			
@@ -668,12 +737,17 @@ static int cpufreq_governor_darkness(struct cpufreq_policy *policy,
 		mutex_unlock(&darkness_mutex);
 		
 =======
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 		if (!darkness_enable)
 			sysfs_remove_group(cpufreq_global_kobject,
 					   &darkness_attr_group);
 		mutex_unlock(&darkness_mutex);
 
+<<<<<<< HEAD
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 		break;
 
 	case CPUFREQ_GOV_LIMITS:
@@ -703,10 +777,14 @@ static void __exit cpufreq_gov_darkness_exit(void)
 
 MODULE_AUTHOR("Alucard24@XDA");
 <<<<<<< HEAD
+<<<<<<< HEAD
 MODULE_DESCRIPTION("'cpufreq_darkness' - A dynamic cpufreq/cpuhotplug governor v4.5 (SnapDragon)");
 =======
 MODULE_DESCRIPTION("'cpufreq_darkness' - A dynamic cpufreq governor");
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+MODULE_DESCRIPTION("'cpufreq_darkness' - A dynamic cpufreq governor");
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
 MODULE_LICENSE("GPL");
 
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_DARKNESS
@@ -717,6 +795,9 @@ module_init(cpufreq_gov_darkness_init);
 module_exit(cpufreq_gov_darkness_exit);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> d0945ff... Add Darkness Governor with Optimizations
+=======
+>>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors

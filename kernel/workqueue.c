@@ -280,7 +280,11 @@ static bool wq_power_efficient = true;
 static bool wq_power_efficient;
 #endif
 
+<<<<<<< HEAD
 module_param_named(power_efficient, wq_power_efficient, bool, 0644);
+=======
+module_param_named(power_efficient, wq_power_efficient, bool, 0444);
+>>>>>>> 8f8ca26... workqueues: Introduce new flag WQ_POWER_EFFICIENT for power oriented workqueues
 
 static bool wq_numa_enabled;		/* unbound NUMA affinity enabled */
 
