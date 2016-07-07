@@ -15,14 +15,8 @@
  */
 #ifndef __THUNDERCHARGE_CONTROL_H__
 #define __THUNDERCHARGE_CONTROL_H__
-<<<<<<< HEAD
 #define DEFAULT_USB_CURRENT 500
 extern int custom_current;
 extern int custom_usb_current;
 extern int mswitch;
 #endif
-=======
-extern int custom_current;
-extern int mswitch;
-#endif
->>>>>>> 2f93048... tomato: Introducing ThunderCharge control 1.0 - a driver to control charging current
