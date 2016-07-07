@@ -1340,6 +1340,7 @@ static void bq24157_external_power_changed(struct power_supply *psy)
 	else
     {
 #ifdef CONFIG_THUNDERCHARGE_CONTROL
+<<<<<<< HEAD
         if(!((prop.intval / 1000) == 0))
         {
             if(mswitch==1) {
@@ -1362,6 +1363,18 @@ static void bq24157_external_power_changed(struct power_supply *psy)
         chip->set_ivbus_max = prop.intval / 1000;
 #endif
 
+=======
+        if(!((prop.intval / 1000) ==0))
+        {
+        pr_info("Using custom current of %d",custom_current);
+		chip->set_ivbus_max = custom_current;
+        }
+        else
+        chip->set_ivbus_max = 0;
+#else
+        chip->set_ivbus_max = prop.intval / 1000;
+#endif
+>>>>>>> 2f93048... tomato: Introducing ThunderCharge control 1.0 - a driver to control charging current
     }
 
 

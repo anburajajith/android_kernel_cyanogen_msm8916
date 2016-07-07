@@ -621,11 +621,26 @@ config SND_SOC_MSM_HDMI_CODEC_RX
 	HDMI audio drivers should be built only if the platform
         supports hdmi panel.
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+
+config SND_SOC_TPA6165A2
+	tristate
+
+config SND_SOC_FSA8500
+	tristate
+>>>>>>> d908db6e240c47e96ef6190b22acc62e6a848c2c
 
 config SOUND_CONTROL_HAX_3_GPL
-	tristate "new wcd9xxx sound control hax"
+	tristate "new wcd93xx sound control hax"
 	default y
 	help
+<<<<<<< HEAD
  		FauxSound wcd9xxx chipset sound control hacks 3.0 for deeper hax 
 =======
 >>>>>>> parent of d908db6... fuax sound
+=======
+	  FauxSound WCD93xx chipset sound control hacks 3.0 for deeper hax
+>>>>>>> d98ce10... Sound Control: initial bring up for Nexus 6 Linux 3.10 kernel driver
+>>>>>>> d908db6e240c47e96ef6190b22acc62e6a848c2c
