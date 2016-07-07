@@ -4069,11 +4069,13 @@ static void throttle_cfs_rq(struct cfs_rq *cfs_rq)
 			dequeue = 0;
 	}
 
-	if (!se) {
-		sched_update_nr_prod(cpu_of(rq), task_delta, false);
+	if (!se)
 		rq->nr_running -= task_delta;
+<<<<<<< HEAD
 		dec_throttled_cfs_rq_hmp_stats(&rq->hmp_stats, cfs_rq);
 	}
+=======
+>>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
 
 	cfs_rq->throttled = 1;
 	cfs_rq->throttled_clock = rq->clock;
@@ -4130,11 +4132,13 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
 			break;
 	}
 
-	if (!se) {
-		sched_update_nr_prod(cpu_of(rq), task_delta, true);
+	if (!se)
 		rq->nr_running += task_delta;
+<<<<<<< HEAD
 		inc_throttled_cfs_rq_hmp_stats(&rq->hmp_stats, tcfs_rq);
 	}
+=======
+>>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
 
 	/* determine whether we need to wake up potentially idle cpu */
 	if (rq->curr == rq->idle && rq->cfs.nr_running)

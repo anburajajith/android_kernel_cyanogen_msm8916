@@ -1413,6 +1413,7 @@ static inline unsigned int do_avg_nr_running(struct rq *rq)
 static inline void inc_nr_running(struct rq *rq)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	sched_update_nr_prod(cpu_of(rq), 1, true);
 =======
 #ifdef CONFIG_INTELLI_PLUG
@@ -1425,6 +1426,9 @@ static inline void inc_nr_running(struct rq *rq)
 	nr_stats->nr_last_stamp = rq->clock_task;
 #endif
 >>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+=======
+	sched_update_nr_prod(cpu_of(rq), rq->nr_running, true);
+>>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
 	rq->nr_running++;
 #ifdef CONFIG_INTELLI_PLUG
 	write_seqcount_end(&nr_stats->ave_seqcnt);
@@ -1444,6 +1448,7 @@ static inline void inc_nr_running(struct rq *rq)
 static inline void dec_nr_running(struct rq *rq)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	sched_update_nr_prod(cpu_of(rq), 1, false);
 =======
 #ifdef CONFIG_INTELLI_PLUG
@@ -1456,6 +1461,9 @@ static inline void dec_nr_running(struct rq *rq)
 	nr_stats->nr_last_stamp = rq->clock_task;
 #endif
 >>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+=======
+	sched_update_nr_prod(cpu_of(rq), rq->nr_running, false);
+>>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
 	rq->nr_running--;
 #ifdef CONFIG_INTELLI_PLUG
 	write_seqcount_end(&nr_stats->ave_seqcnt);
