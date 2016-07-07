@@ -917,6 +917,12 @@ static inline void clear_reserved(int cpu)
 	clear_bit(CPU_RESERVED, &rq->hmp_flags);
 }
 
+<<<<<<< HEAD
+=======
+extern unsigned int sched_enable_hmp;
+extern unsigned int sched_enable_power_aware;
+
+>>>>>>> parent of a300303... sched: Add sysctl to enable power aware scheduling
 int mostly_idle_cpu(int cpu);
 extern void check_for_migration(struct rq *rq, struct task_struct *p);
 extern void pre_big_small_task_count_change(const struct cpumask *cpus);
