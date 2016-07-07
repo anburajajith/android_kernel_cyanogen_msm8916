@@ -306,5 +306,8 @@ obj-$(CONFIG_SND_SOC_TPA6165A2) += snd-soc-tpa6165a2.o
 obj-$(CONFIG_SND_SOC_FSA8500) += snd-soc-fsa8500.o
 
 obj-$(CONFIG_SOUND_CONTROL_HAX_3_GPL) += sound_control_3_gpl.o
+<<<<<<< HEAD
 >>>>>>> d98ce10... Sound Control: initial bring up for Nexus 6 Linux 3.10 kernel driver
 >>>>>>> d908db6e240c47e96ef6190b22acc62e6a848c2c
+=======
+>>>>>>> d98ce10... Sound Control: initial bring up for Nexus 6 Linux 3.10 kernel driver

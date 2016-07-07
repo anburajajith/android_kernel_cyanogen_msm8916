@@ -630,12 +630,16 @@ config SND_SOC_TPA6165A2
 
 config SND_SOC_FSA8500
 	tristate
+<<<<<<< HEAD
 >>>>>>> d908db6e240c47e96ef6190b22acc62e6a848c2c
+=======
+>>>>>>> d98ce10... Sound Control: initial bring up for Nexus 6 Linux 3.10 kernel driver
 
 config SOUND_CONTROL_HAX_3_GPL
 	tristate "new wcd93xx sound control hax"
 	default y
 	help
+<<<<<<< HEAD
 <<<<<<< HEAD
  		FauxSound wcd9xxx chipset sound control hacks 3.0 for deeper hax 
 =======
@@ -644,3 +648,6 @@ config SOUND_CONTROL_HAX_3_GPL
 	  FauxSound WCD93xx chipset sound control hacks 3.0 for deeper hax
 >>>>>>> d98ce10... Sound Control: initial bring up for Nexus 6 Linux 3.10 kernel driver
 >>>>>>> d908db6e240c47e96ef6190b22acc62e6a848c2c
+=======
+	  FauxSound WCD93xx chipset sound control hacks 3.0 for deeper hax
+>>>>>>> d98ce10... Sound Control: initial bring up for Nexus 6 Linux 3.10 kernel driver
