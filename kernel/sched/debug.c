@@ -324,10 +324,15 @@ do {									\
 	P(max_freq);
 #endif
 #ifdef CONFIG_SCHED_HMP
+<<<<<<< HEAD
 	P(hmp_stats.nr_big_tasks);
 	P(hmp_stats.nr_small_tasks);
 	SEQ_printf(m, "  .%-30s: %llu\n", "hmp_stats.cumulative_runnable_avg",
 			rq->hmp_stats.cumulative_runnable_avg);
+=======
+	P(nr_big_tasks);
+	P(nr_small_tasks);
+>>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
 #endif
 #undef P
 #undef PN
