@@ -2890,14 +2890,12 @@ static int __mdss_fb_display_thread(void *data)
 				(atomic_read(&mfd->commits_pending) ||
 				 kthread_should_stop()));
 
-<<<<<<< HEAD
-=======
 		      if (ret) {
  				pr_info("%s: interrupted", __func__);
  				continue;
  		      }
 
->>>>>>> 6c39e9f... Fixed High-Load Average from UnInterruptible Waits
+
 		if (kthread_should_stop())
 			break;
 

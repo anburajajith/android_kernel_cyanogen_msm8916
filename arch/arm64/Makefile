@@ -46,15 +46,9 @@ core-y		+= arch/arm64/kernel/ arch/arm64/mm/
 core-$(CONFIG_XEN)		+= arch/arm64/xen/
 core-$(CONFIG_KVM) += arch/arm64/kvm/
 core-$(CONFIG_CRYPTO) += arch/arm64/crypto/
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 core-y          += arch/arm64/hotplug/
-=======
-core-y		+= arch/arm64/hotplug/
->>>>>>> b7019aa... Prepare Source for HotPlugs
-=======
-core-y          += arch/arm64/hotplug/
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 libs-y		:= arch/arm64/lib/ $(libs-y)
 libs-y		+= $(LIBGCC)
 

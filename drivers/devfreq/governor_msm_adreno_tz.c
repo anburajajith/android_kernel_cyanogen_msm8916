@@ -36,13 +36,6 @@ static DEFINE_SPINLOCK(tz_lock);
  * MIN_BUSY is 1 msec for the sample to be sent
  */
 #define MIN_BUSY		1000
-/*
- * Use BUSY_BIN to check for fully busy rendering
- * intervals that may need early intervention when
- * seen with LONG_FRAME lengths
- */
-#define BUSY_BIN		95
-#define LONG_FRAME		25000
 #define MAX_TZ_VERSION		0
 
 /*
@@ -70,36 +63,6 @@ static void do_partner_suspend_event(struct work_struct *work);
 static void do_partner_resume_event(struct work_struct *work);
 /* Boolean to detect if pm has entered suspend mode */
 static bool suspended = false;
-<<<<<<< HEAD
-=======
-
-/* Trap into the TrustZone, and call funcs there. */
-static int __secure_tz_reset_entry2(unsigned int *scm_data, u32 size_scm_data,
-					bool is_64)
-{
-	int ret;
-	/* sync memory before sending the commands to tz*/
-	__iowmb();
-
-	if (!is_64) {
-		spin_lock(&tz_lock);
-		ret = scm_call_atomic2(SCM_SVC_IO, TZ_RESET_ID, scm_data[0],
-					scm_data[1]);
-		spin_unlock(&tz_lock);
-	} else {
-		if (is_scm_armv8()) {
-			struct scm_desc desc = {0};
-			desc.arginfo = 0;
-			ret = scm_call2(SCM_SIP_FNID(SCM_SVC_DCVS,
-					 TZ_RESET_ID_64), &desc);
-		} else {
-			ret = scm_call(SCM_SVC_DCVS, TZ_RESET_ID_64, scm_data,
-				size_scm_data, NULL, 0);
-		}
-	}
-	return ret;
-}
->>>>>>> 9591936... msm_adreno_tz: be aware of suspended state
 
 static int __secure_tz_update_entry3(unsigned int *scm_data, u32 size_scm_data,
 					int *val, u32 size_val, bool is_64)
@@ -182,19 +145,10 @@ static int tz_init(struct devfreq_msm_adreno_tz_data *priv,
 	return ret;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_ADRENO_IDLER
 extern int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq,
 		 unsigned long *freq);
 #endif
-=======
-#ifdef CONFIG_SIMPLE_GPU_ALGORITHM
-extern int simple_gpu_active;
-extern int simple_gpu_algorithm(int level,
-				struct devfreq_msm_adreno_tz_data *priv);
-#endif
-
->>>>>>> ac16bab... Simple GPU Algorithm: Initial coding for devfreq based Adreno Drivers
 static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 				u32 *flag)
 {
@@ -203,7 +157,6 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 	struct devfreq_dev_status stats;
 	int val, level = 0;
 	unsigned int scm_data[3];
-	static int busy_bin, frame_flag;
 
 	/* keeps stats.private_data == NULL   */
 	result = devfreq->profile->get_dev_status(devfreq->dev.parent, &stats);
@@ -219,11 +172,6 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 	}
 
 	*freq = stats.current_frequency;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 9591936... msm_adreno_tz: be aware of suspended state
 	*flag = 0;
 
 	/*
@@ -235,7 +183,6 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 		return 0;
 	}
 
-<<<<<<< HEAD
 #ifdef CONFIG_ADRENO_IDLER
 	if (adreno_idler(stats, devfreq, freq)) {
 		/* adreno_idler has asked to bail out now */
@@ -243,13 +190,6 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 	}
 #endif
 
-<<<<<<< HEAD
->>>>>>> 499672d... Update and enable powersuspend
-=======
->>>>>>> 71d2013... Introduce Adreno idler for devfreq-based Adreno devices
->>>>>>> 1445ecf... Adreno idler
-=======
->>>>>>> 9591936... msm_adreno_tz: be aware of suspended state
 	priv->bin.total_time += stats.total_time;
 	priv->bin.busy_time += stats.busy_time;
 
@@ -265,15 +205,6 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 		return 0;
 	}
 
-	if ((stats.busy_time * 100 / stats.total_time) > BUSY_BIN) {
-		busy_bin += stats.busy_time;
-		if (stats.total_time > LONG_FRAME)
-			frame_flag = 1;
-	} else {
-		busy_bin = 0;
-		frame_flag = 0;
-	}
-
 	level = devfreq_get_freq_level(devfreq, stats.current_frequency);
 	if (level < 0) {
 		pr_err(TAG "bad freq %ld\n", stats.current_frequency);
@@ -284,35 +215,15 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 	 * If there is an extended block of busy processing,
 	 * increase frequency.  Otherwise run the normal algorithm.
 	 */
-	if (priv->bin.busy_time > CEILING ||
-		(busy_bin > CEILING && frame_flag)) {
+	if (priv->bin.busy_time > CEILING) {
 		val = -1 * level;
-		busy_bin = 0;
-		frame_flag = 0;
 	} else {
-<<<<<<< HEAD
 
 		scm_data[0] = level;
 		scm_data[1] = priv->bin.total_time;
 		scm_data[2] = priv->bin.busy_time;
 		__secure_tz_update_entry3(scm_data, sizeof(scm_data),
 					&val, sizeof(val), priv->is_64);
-=======
-#ifdef CONFIG_SIMPLE_GPU_ALGORITHM
-		if (simple_gpu_active != 0)
-			val = simple_gpu_algorithm(level, priv);
-		else
-			val = __secure_tz_entry3(TZ_UPDATE_ID,
-					level,
-					priv->bin.total_time,
-					priv->bin.busy_time);
-#else
-		val = __secure_tz_entry3(TZ_UPDATE_ID,
-				level,
-				priv->bin.total_time,
-				priv->bin.busy_time);
-#endif
->>>>>>> ac16bab... Simple GPU Algorithm: Initial coding for devfreq based Adreno Drivers
 	}
 	priv->bin.total_time = 0;
 	priv->bin.busy_time = 0;

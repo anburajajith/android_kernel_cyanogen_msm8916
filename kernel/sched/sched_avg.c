@@ -57,19 +57,7 @@ void sched_get_nr_running_avg(int *avg, int *iowait_avg)
 		tmp_avg += per_cpu(nr_prod_sum, cpu);
 		tmp_avg += per_cpu(nr, cpu) *
 			(curr_time - per_cpu(last_time, cpu));
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-		tmp_big_avg += per_cpu(nr_big_prod_sum, cpu);
-		tmp_big_avg += nr_eligible_big_tasks(cpu) *
-			(curr_time - per_cpu(last_time, cpu));
-
-=======
->>>>>>> parent of c3b9f1c... sched: Keep track of average nr_big_tasks
-		tmp_iowait += per_cpu(iowait_prod_sum, cpu);
-=======
 		tmp_iowait = per_cpu(iowait_prod_sum, cpu);
->>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
 		tmp_iowait +=  nr_iowait_cpu(cpu) *
 			(curr_time - per_cpu(last_time, cpu));
 		per_cpu(last_time, cpu) = curr_time;
@@ -81,25 +69,10 @@ void sched_get_nr_running_avg(int *avg, int *iowait_avg)
 	*avg = (int)div64_u64(tmp_avg * 100, diff);
 	*iowait_avg = (int)div64_u64(tmp_iowait * 100, diff);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-	trace_sched_get_nr_running_avg(*avg, *big_avg, *iowait_avg);
-
-	BUG_ON(*avg < 0 || *big_avg < 0 || *iowait_avg < 0);
-	pr_debug("%s - avg:%d big_avg:%d iowait_avg:%d\n",
-				 __func__, *avg, *big_avg, *iowait_avg);
-=======
 	BUG_ON(*avg < 0);
 	pr_debug("%s - avg:%d\n", __func__, *avg);
 	BUG_ON(*iowait_avg < 0);
 	pr_debug("%s - avg:%d\n", __func__, *iowait_avg);
->>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
-=======
-	BUG_ON(*avg < 0);
-	pr_debug("%s - avg:%d\n", __func__, *avg);
-	BUG_ON(*iowait_avg < 0);
-	pr_debug("%s - iowait_avg:%d\n", __func__, *iowait_avg);
->>>>>>> parent of c3b9f1c... sched: Keep track of average nr_big_tasks
 }
 EXPORT_SYMBOL(sched_get_nr_running_avg);
 

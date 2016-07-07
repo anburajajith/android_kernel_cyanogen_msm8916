@@ -571,8 +571,7 @@ config MSM_PERFORMANCE_HOTPLUG_ON
           compile out the nodes needed for core-control functionality through
           msm_performance.
 
-<<<<<<< HEAD
-=======
+
 config THUNDERPLUG_CONTROL
 	bool "Enable plugging down/up of cores using powersuspend"
 	help
@@ -678,13 +677,6 @@ config ALUCARD_HOTPLUG
 	help
 	  Generic Alucard-hotplug cpu hotplug driver for ARM SOCs
 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> ec043e4... Add Alucard Hotplug
-=======
->>>>>>> ec043e4... Add Alucard Hotplug
-=======
->>>>>>> ec043e4... Add Alucard Hotplug
 source "drivers/soc/qcom/memshare/Kconfig"
 
 endif # ARCH_MSM

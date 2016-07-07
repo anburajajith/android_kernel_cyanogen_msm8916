@@ -171,9 +171,7 @@ config CPU_FREQ_DEFAULT_GOV_INTERACTIVE
 	  loading your cpufreq low-level hardware driver, using the
 	  'interactive' governor for latency-sensitive workloads.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
 config CPU_FREQ_DEFAULT_GOV_ELECTRODEMAND
 	bool "electrodemand"
 	select CPU_FREQ_GOV_ELECTRODEMAND
@@ -182,26 +180,26 @@ config CPU_FREQ_DEFAULT_GOV_AUTHORITY
 	bool "authority"
 	select CPU_FREQ_GOV_AUTHORITY
 
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 config CPU_FREQ_DEFAULT_GOV_ALUCARD
 	bool "alucard"
 	select CPU_FREQ_GOV_ALUCARD
 	help
-<<<<<<< HEAD
+
 
 config CPU_FREQ_DEFAULT_GOV_BLU_ACTIVE
 	bool "blu_active"
 	select CPU_FREQ_GOV_BLU_ACTIVE
 	help
 
-=======
+
 	
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 config CPU_FREQ_DEFAULT_GOV_DARKNESS
 	bool "darkness"
 	select CPU_FREQ_GOV_DARKNESS
 
-<<<<<<< HEAD
+
 config CPU_FREQ_DEFAULT_GOV_INTELLIACTIVE
 	bool "intelliactive"
 	select CPU_FREQ_GOV_INTELLIACTIVE
@@ -254,12 +252,11 @@ config CPU_FREQ_DEFAULT_GOV_LIONFISH
 	select CPU_FREQ_GOV_LIONFISH
 	help
 	  Use the CPUFreq governor 'lionfish' as default.
-=======
+
 config CPU_FREQ_DEFAULT_GOV_DARKNESS
  	bool "darkness"
  	select CPU_FREQ_GOV_DARKNESS
->>>>>>> d0945ff... Add Darkness Governor with Optimizations
-=======
+
 config CPU_FREQ_DEFAULT_GOV_WHEATLEY
 	bool "wheatley"
 	select CPU_FREQ_GOV_WHEATLEY
@@ -331,7 +328,7 @@ config CPU_FREQ_DEFAULT_GOV_BARRY_ALLEN
 config CPU_FREQ_DEFAULT_GOV_INTELLIDEMAND
   bool "intellidemand"
   select CPU_FREQ_GOV_INTELLIDEMAND
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 
 endchoice
 
@@ -500,7 +497,7 @@ config CPU_FREQ_GOV_INTERACTIVE
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
+
 config CPU_FREQ_GOV_LIONFISH
 	tristate "'lionfish' governor"
 	depends on CPU_FREQ
@@ -522,7 +519,7 @@ config CPU_FREQ_GOV_LIONFISH
 	  module will be called cpufreq_lionfish.
 
 	  If in doubt, say N.
-=======
+
 config CPU_FREQ_GOV_AUTHORITY
 	tristate "'authority' cpufreq policy governor"
 
@@ -557,7 +554,7 @@ config CPU_FREQ_GOV_YANKACTIVE
 
 config CPU_FREQ_GOV_PEGASUSQ
 	tristate "'pegasusq' cpufreq policy governor"
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 
 config CPU_FREQ_GOV_CONSERVATIVE
 	tristate "'conservative' cpufreq governor"
@@ -583,7 +580,7 @@ config CPU_FREQ_GOV_CONSERVATIVE
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
+
 config CPU_FREQ_GOV_ALUCARD
 	tristate "'alucard' cpufreq governor"
 	depends on CPU_FREQ
@@ -599,12 +596,12 @@ config CPU_FREQ_GOV_INTELLIACTIVE
 	tristate "'intelliactive' cpufreq policy governor"
 	help
 	  'intelliactive' - This driver adds a dynamic cpufreq policy governor
-=======
+
 config CPU_FREQ_GOV_BLU_ACTIVE
 	tristate "'blu_active' cpufreq policy governor"
 	help
 	  'blu_active' - This driver adds a dynamic cpufreq policy governor
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 	  designed for latency-sensitive workloads.
 
 	  This governor attempts to reduce the latency of clock
@@ -612,7 +609,7 @@ config CPU_FREQ_GOV_BLU_ACTIVE
 	  interactive workloads.
 
 	  To compile this driver as a module, choose M here: the
-<<<<<<< HEAD
+
 	  module will be called cpufreq_interactive.
 
 	  For details, take a look at linux/Documentation/cpu-freq.
@@ -665,7 +662,7 @@ config CPU_FREQ_GOV_KTOONSERVATIVE
 	  For details, take a look at linux/Documentation/cpu-freq.
 
           If in doubt, say N.
-=======
+
 	  module will be called cpufreq_blu_active.
 
 	  If in doubt, say N.
@@ -757,7 +754,7 @@ config CPU_FREQ_GOV_IMPULSE
     designed for optimized balance between power and performance.
 
     If in doubt, say N.
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 
 config CPU_BOOST
 	tristate "Event base short term CPU freq boost"

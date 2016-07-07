@@ -1246,7 +1246,7 @@ unsigned int max_task_load(void)
 }
 
 /* Use this knob to turn on or off HMP-aware task placement logic */
-unsigned int __read_mostly sched_enable_hmp = 1;
+unsigned int __read_mostly sched_enable_hmp = 0;
 
 /* A cpu can no longer accomodate more tasks if:
  *
@@ -2095,139 +2095,9 @@ void dec_nr_big_small_task(struct rq *rq, struct task_struct *p)
 	if (is_big_task(p))
 		rq->nr_big_tasks--;
 	else if (is_small_task(p))
-<<<<<<< HEAD
-		stats->nr_small_tasks--;
-
-	BUG_ON(stats->nr_big_tasks < 0 || stats->nr_small_tasks < 0);
-}
-
-<<<<<<< HEAD
-static void
-inc_rq_hmp_stats(struct rq *rq, struct task_struct *p, int change_cra)
-{
-	inc_nr_big_small_task(&rq->hmp_stats, p);
-	if (change_cra)
-		inc_cumulative_runnable_avg(&rq->hmp_stats, p);
-}
-
-static void
-dec_rq_hmp_stats(struct rq *rq, struct task_struct *p, int change_cra)
-{
-	dec_nr_big_small_task(&rq->hmp_stats, p);
-	if (change_cra)
-		dec_cumulative_runnable_avg(&rq->hmp_stats, p);
-}
-
-static void reset_hmp_stats(struct hmp_sched_stats *stats, int reset_cra)
-{
-	stats->nr_big_tasks = stats->nr_small_tasks = 0;
-	if (reset_cra)
-		stats->cumulative_runnable_avg = 0;
-=======
 		rq->nr_small_tasks--;
 
 	BUG_ON(rq->nr_big_tasks < 0 || rq->nr_small_tasks < 0);
->>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
-}
-
-
-#ifdef CONFIG_CFS_BANDWIDTH
-
-static inline struct task_group *next_task_group(struct task_group *tg)
-{
-	tg = list_entry_rcu(tg->list.next, typeof(struct task_group), list);
-
-	return (&tg->list == &task_groups) ? NULL : tg;
-}
-
-/* Iterate over all cfs_rq in a cpu */
-#define for_each_cfs_rq(cfs_rq, tg, cpu)	\
-	for (tg = container_of(&task_groups, struct task_group, list);	\
-		((tg = next_task_group(tg)) && (cfs_rq = tg->cfs_rq[cpu]));)
-
-static void reset_cfs_rq_hmp_stats(int cpu, int reset_cra)
-{
-	struct task_group *tg;
-	struct cfs_rq *cfs_rq;
-
-	rcu_read_lock();
-
-	for_each_cfs_rq(cfs_rq, tg, cpu)
-		reset_hmp_stats(&cfs_rq->hmp_stats, reset_cra);
-
-	rcu_read_unlock();
-}
-
-#else	/* CONFIG_CFS_BANDWIDTH */
-
-static inline void reset_cfs_rq_hmp_stats(int cpu, int reset_cra) { }
-
-#endif	/* CONFIG_CFS_BANDWIDTH */
-
-/*
- * reset_cpu_hmp_stats - reset HMP stats for a cpu
- *	nr_big_tasks, nr_small_tasks
- *	cumulative_runnable_avg (iff reset_cra is true)
- */
-void reset_cpu_hmp_stats(int cpu, int reset_cra)
-{
-	reset_cfs_rq_hmp_stats(cpu, reset_cra);
-	reset_hmp_stats(&cpu_rq(cpu)->hmp_stats, reset_cra);
-}
-
-#ifdef CONFIG_CFS_BANDWIDTH
-
-static inline int cfs_rq_throttled(struct cfs_rq *cfs_rq);
-
-static void inc_cfs_rq_hmp_stats(struct cfs_rq *cfs_rq,
-	 struct task_struct *p, int change_cra);
-static void dec_cfs_rq_hmp_stats(struct cfs_rq *cfs_rq,
-	 struct task_struct *p, int change_cra);
-
-/* Add task's contribution to a cpu' HMP statistics */
-static void
-_inc_hmp_sched_stats_fair(struct rq *rq, struct task_struct *p, int change_cra)
-{
-	struct cfs_rq *cfs_rq;
-	struct sched_entity *se = &p->se;
-
-	/*
-	 * Although below check is not strictly required  (as
-	 * inc/dec_nr_big_small_task and inc/dec_cumulative_runnable_avg called
-	 * from inc_cfs_rq_hmp_stats() have similar checks), we gain a bit on
-	 * efficiency by short-circuiting for_each_sched_entity() loop when
-	 * !sched_enable_hmp || sched_disable_window_stats
-	 */
-	if (!sched_enable_hmp || sched_disable_window_stats)
-		return;
-
-	for_each_sched_entity(se) {
-		cfs_rq = cfs_rq_of(se);
-		inc_cfs_rq_hmp_stats(cfs_rq, p, change_cra);
-		if (cfs_rq_throttled(cfs_rq))
-			break;
-	}
-
-	/* Update rq->hmp_stats only if we didn't find any throttled cfs_rq */
-	if (!se)
-		inc_rq_hmp_stats(rq, p, change_cra);
-}
-
-/* Remove task's contribution from a cpu' HMP statistics */
-static void
-_dec_hmp_sched_stats_fair(struct rq *rq, struct task_struct *p, int change_cra)
-=======
-static void inc_rq_hmp_stats(struct rq *rq, struct task_struct *p)
->>>>>>> parent of d9a1f5d... sched: Support CFS_BANDWIDTH feature in HMP scheduler
-{
-	inc_cumulative_runnable_avg(&rq->hmp_stats, p);
-	inc_nr_big_small_task(&rq->hmp_stats, p);
-}
-
-static void dec_rq_hmp_stats(struct rq *rq, struct task_struct *p)
-{
-	dec_cumulative_runnable_avg(&rq->hmp_stats, p);
-	dec_nr_big_small_task(&rq->hmp_stats, p);
 }
 
 /*
@@ -2239,30 +2109,10 @@ void fixup_nr_big_small_task(int cpu)
 	struct rq *rq = cpu_rq(cpu);
 	struct task_struct *p;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-	/* fixup_nr_big_small_task() is called from two functions. In one of
-	 * them stats are already reset, don't waste time resetting them again
-	 */
-	if (reset_stats) {
-		/* Do not reset cumulative_runnable_avg */
-		reset_cpu_hmp_stats(cpu, 0);
-	}
-
-	list_for_each_entry(p, &rq->cfs_tasks, se.group_node)
-		_inc_hmp_sched_stats_fair(rq, p, 0);
-=======
 	rq->nr_big_tasks = 0;
 	rq->nr_small_tasks = 0;
 	list_for_each_entry(p, &rq->cfs_tasks, se.group_node)
 		inc_nr_big_small_task(rq, p);
->>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
-=======
-	rq->hmp_stats.nr_big_tasks = 0;
-	rq->hmp_stats.nr_small_tasks = 0;
-	list_for_each_entry(p, &rq->cfs_tasks, se.group_node)
-		inc_nr_big_small_task(&rq->hmp_stats, p);
->>>>>>> parent of d9a1f5d... sched: Support CFS_BANDWIDTH feature in HMP scheduler
 }
 
 /* Disable interrupts and grab runqueue lock of all cpus listed in @cpus */
@@ -2626,25 +2476,7 @@ static inline int capacity(struct rq *rq)
 
 static inline int nr_big_tasks(struct rq *rq)
 {
-<<<<<<< HEAD
-	return rq->hmp_stats.nr_big_tasks;
-=======
 	return rq->nr_big_tasks;
->>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
-}
-
-static void
-inc_hmp_sched_stats_fair(struct rq *rq, struct task_struct *p)
-{
-	inc_cumulative_runnable_avg(&rq->hmp_stats, p);
-	inc_nr_big_small_task(&rq->hmp_stats, p);
-}
-
-static void
-dec_hmp_sched_stats_fair(struct rq *rq, struct task_struct *p)
-{
-	dec_cumulative_runnable_avg(&rq->hmp_stats, p);
-	dec_nr_big_small_task(&rq->hmp_stats, p);
 }
 
 #else	/* CONFIG_SCHED_HMP */
@@ -2702,29 +2534,6 @@ static inline int capacity(struct rq *rq)
 	return SCHED_LOAD_SCALE;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-static inline void
-inc_rq_hmp_stats(struct rq *rq, struct task_struct *p, int change_cra) { }
-static inline void
-dec_rq_hmp_stats(struct rq *rq, struct task_struct *p, int change_cra) { }
-=======
-static inline void inc_rq_hmp_stats(struct rq *rq, struct task_struct *p) { }
-static inline void dec_rq_hmp_stats(struct rq *rq, struct task_struct *p) { }
->>>>>>> parent of d9a1f5d... sched: Support CFS_BANDWIDTH feature in HMP scheduler
-
-static inline void
-inc_hmp_sched_stats_fair(struct rq *rq, struct task_struct *p)
-{
-}
-
-static inline void
-dec_hmp_sched_stats_fair(struct rq *rq, struct task_struct *p)
-{
-}
-
-=======
->>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
 #endif	/* CONFIG_SCHED_HMP */
 
 #ifdef CONFIG_SCHED_HMP
@@ -3183,13 +2992,6 @@ static inline void dequeue_entity_load_avg(struct cfs_rq *cfs_rq,
 					   int sleep) {}
 static inline void update_cfs_rq_blocked_load(struct cfs_rq *cfs_rq,
 					      int force_update) {}
-<<<<<<< HEAD
-
-static inline void inc_rq_hmp_stats(struct rq *rq, struct task_struct *p) { }
-static inline void dec_rq_hmp_stats(struct rq *rq, struct task_struct *p) { }
-
-=======
->>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
 #endif
 
 #ifdef CONFIG_SCHED_HMP
@@ -3330,12 +3132,6 @@ static void check_spread(struct cfs_rq *cfs_rq, struct sched_entity *se)
 #endif
 }
 
-static unsigned int Lgentle_fair_sleepers = 1;
-void relay_gfs(unsigned int gfs)
-{
-	Lgentle_fair_sleepers = gfs;
-}
-
 static void
 place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int initial)
 {
@@ -3358,7 +3154,7 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int initial)
 		 * Halve their sleep time's effect, to allow
 		 * for a gentler effect of sleepers:
 		 */
-		if (Lgentle_fair_sleepers)
+		if (sched_feat(GENTLE_FAIR_SLEEPERS))
 			thresh >>= 1;
 
 		vruntime -= thresh;
@@ -3948,14 +3744,6 @@ static void throttle_cfs_rq(struct cfs_rq *cfs_rq)
 
 	if (!se)
 		rq->nr_running -= task_delta;
-<<<<<<< HEAD
-<<<<<<< HEAD
-		dec_throttled_cfs_rq_hmp_stats(&rq->hmp_stats, cfs_rq);
-=======
->>>>>>> parent of d9a1f5d... sched: Support CFS_BANDWIDTH feature in HMP scheduler
-	}
-=======
->>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
 
 	cfs_rq->throttled = 1;
 	cfs_rq->throttled_clock = rq->clock;
@@ -4005,14 +3793,6 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
 
 	if (!se)
 		rq->nr_running += task_delta;
-<<<<<<< HEAD
-<<<<<<< HEAD
-		inc_throttled_cfs_rq_hmp_stats(&rq->hmp_stats, tcfs_rq);
-=======
->>>>>>> parent of d9a1f5d... sched: Support CFS_BANDWIDTH feature in HMP scheduler
-	}
-=======
->>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
 
 	/* determine whether we need to wake up potentially idle cpu */
 	if (rq->curr == rq->idle && rq->cfs.nr_running)
@@ -4547,15 +4327,7 @@ enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
 	if (!se) {
 		update_rq_runnable_avg(rq, rq->nr_running);
 		inc_nr_running(rq);
-<<<<<<< HEAD
-<<<<<<< HEAD
-		inc_rq_hmp_stats(rq, p, 1);
-=======
 		inc_nr_big_small_task(rq, p);
->>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
-=======
-		inc_rq_hmp_stats(rq, p);
->>>>>>> parent of d9a1f5d... sched: Support CFS_BANDWIDTH feature in HMP scheduler
 	}
 	hrtick_update(rq);
 }
@@ -4617,15 +4389,7 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
 	if (!se) {
 		dec_nr_running(rq);
 		update_rq_runnable_avg(rq, 1);
-<<<<<<< HEAD
-<<<<<<< HEAD
-		dec_rq_hmp_stats(rq, p, 1);
-=======
 		dec_nr_big_small_task(rq, p);
->>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
-=======
-		dec_rq_hmp_stats(rq, p);
->>>>>>> parent of d9a1f5d... sched: Support CFS_BANDWIDTH feature in HMP scheduler
 	}
 	hrtick_update(rq);
 }
@@ -6372,8 +6136,7 @@ static bool update_sd_pick_busiest(struct lb_env *env,
 	/* Mark a less power-efficient CPU as busy only if we haven't
 	 * seen a busy group yet. We want to prioritize spreading
 	 * work over power optimization. */
-	if (sched_enable_power_aware &&
-	    !sds->busiest && sg->group_weight == 1 &&
+	if (!sds->busiest && sg->group_weight == 1 &&
 	    sgs->sum_nr_running && (env->idle != CPU_NOT_IDLE) &&
 	    power_cost_at_freq(env->dst_cpu, 0) <
 	    power_cost_at_freq(cpumask_first(sched_group_cpus(sg)), 0)) {
@@ -7197,6 +6960,7 @@ void idle_balance(int this_cpu, struct rq *this_rq)
 			continue;
 
 		if (sd->flags & SD_BALANCE_NEWIDLE) {
+			/* If we've pulled tasks over stop searching: */
 			pulled_task = load_balance(balance_cpu, balance_rq,
 					sd, CPU_NEWLY_IDLE, &balance);
 		}
@@ -7204,11 +6968,7 @@ void idle_balance(int this_cpu, struct rq *this_rq)
 		interval = msecs_to_jiffies(sd->balance_interval);
 		if (time_after(next_balance, sd->last_balance + interval))
 			next_balance = sd->last_balance + interval;
-			/*
-			* Stop searching for tasks to pull if there are
-			* now runnable tasks on this rq.
-			*/
- 			if (pulled_task || this_rq->nr_running > 0) {
+		if (pulled_task) {
 			balance_rq->idle_stamp = 0;
 			break;
 		}

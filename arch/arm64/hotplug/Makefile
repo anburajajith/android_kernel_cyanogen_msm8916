@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-obj-$(CONFIG_INTELLI_PLUG)		+= intelli_plug.o
-obj-$(CONFIG_BRICKED_HOTPLUG) += bricked_hotplug.o 
-obj-$(CONFIG_ASMP)			      += autosmp.o 
-obj-$(CONFIG_ALUCARD_HOTPLUG) += alucard_hotplug.o
-=======
 obj-$(CONFIG_THUNDERPLUG_CONTROL) 	+= thunderplug.o
 obj-$(CONFIG_INTELLI_PLUG)		+= intelli_plug.o
 obj-$(CONFIG_BRICKED_HOTPLUG) 		+= bricked_hotplug.o 
@@ -14,5 +8,5 @@ obj-$(CONFIG_ZEN_DECISION)		+= msm_zen_decision.o
 obj-$(CONFIG_ASMP)			+= autosmp.o 
 obj-$(CONFIG_ALUCARD_HOTPLUG) 		+= alucard_hotplug.o
 obj-$(CONFIG_MSM_SLEEPER) 		+= msm_sleeper.o
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 

@@ -497,16 +497,14 @@ struct rq {
 	int capacity;
 	int max_possible_capacity;
 	u64 window_start;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	unsigned long hmp_flags;
-=======
+
 	u32 mostly_idle_load;
 	int mostly_idle_nr_run;
 	int mostly_idle_freq;
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
-=======
->>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
+
+
 
 #ifdef CONFIG_SCHED_FREQ_INPUT
 	unsigned int old_busy_time;
@@ -521,7 +519,7 @@ struct rq {
 
 #ifdef CONFIG_SCHED_HMP
 	int nr_small_tasks, nr_big_tasks;
-	unsigned long hmp_flags;
+	//unsigned long hmp_flags;
 #endif
 
 #ifdef CONFIG_IRQ_TIME_ACCOUNTING
@@ -806,19 +804,17 @@ dec_cumulative_runnable_avg(struct rq *rq, struct task_struct *p)
 
 #else	/* CONFIG_SCHED_HMP */
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 struct hmp_sched_stats;
 
-=======
->>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
+
+
 static inline unsigned int nr_eligible_big_tasks(int cpu)
 {
 	return 0;
 }
 
-=======
->>>>>>> parent of c3b9f1c... sched: Keep track of average nr_big_tasks
+
 static inline int pct_task_load(struct task_struct *p) { return 0; }
 
 static inline void
@@ -902,17 +898,14 @@ static inline void clear_reserved(int cpu)
 	clear_bit(CPU_RESERVED, &rq->hmp_flags);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
 extern unsigned int sched_enable_hmp;
 extern unsigned int sched_enable_power_aware;
 
->>>>>>> parent of a300303... sched: Add sysctl to enable power aware scheduling
-=======
+
 extern unsigned int sched_enable_hmp;
 
->>>>>>> parent of 4047eb6... sched: Consolidate hmp stats into their own struct
+
 int mostly_idle_cpu(int cpu);
 extern void check_for_migration(struct rq *rq, struct task_struct *p);
 extern void pre_big_small_task_count_change(const struct cpumask *cpus);
@@ -1408,23 +1401,22 @@ static inline unsigned int do_avg_nr_running(struct rq *rq)
 
 static inline void inc_nr_running(struct rq *rq)
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-	sched_update_nr_prod(cpu_of(rq), 1, true);
-=======
+	
 #ifdef CONFIG_INTELLI_PLUG
 	struct nr_stats_s *nr_stats = &per_cpu(runqueue_stats, rq->cpu);
 #endif
+	
+	sched_update_nr_prod(cpu_of(rq), 1, true);
+
+
 	sched_update_nr_prod(cpu_of(rq), rq->nr_running, true);
 #ifdef CONFIG_INTELLI_PLUG
 	write_seqcount_begin(&nr_stats->ave_seqcnt);
 	nr_stats->ave_nr_running = do_avg_nr_running(rq);
 	nr_stats->nr_last_stamp = rq->clock_task;
 #endif
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
-=======
-	sched_update_nr_prod(cpu_of(rq), rq->nr_running, true);
->>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
+
+
 	rq->nr_running++;
 #ifdef CONFIG_INTELLI_PLUG
 	write_seqcount_end(&nr_stats->ave_seqcnt);
@@ -1443,12 +1435,11 @@ static inline void inc_nr_running(struct rq *rq)
 
 static inline void dec_nr_running(struct rq *rq)
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
+    struct nr_stats_s *nr_stats = &per_cpu(runqueue_stats, rq->cpu);
 	sched_update_nr_prod(cpu_of(rq), 1, false);
-=======
+
 #ifdef CONFIG_INTELLI_PLUG
-	struct nr_stats_s *nr_stats = &per_cpu(runqueue_stats, rq->cpu);
+	
 #endif
 	sched_update_nr_prod(cpu_of(rq), rq->nr_running, false);
 #ifdef CONFIG_INTELLI_PLUG
@@ -1456,10 +1447,9 @@ static inline void dec_nr_running(struct rq *rq)
 	nr_stats->ave_nr_running = do_avg_nr_running(rq);
 	nr_stats->nr_last_stamp = rq->clock_task;
 #endif
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
-=======
+
 	sched_update_nr_prod(cpu_of(rq), rq->nr_running, false);
->>>>>>> parent of 408ded3... sched: Fix bug in average nr_running and nr_iowait calculation
+
 	rq->nr_running--;
 #ifdef CONFIG_INTELLI_PLUG
 	write_seqcount_end(&nr_stats->ave_seqcnt);

@@ -100,13 +100,11 @@ struct cpufreq_policy {
 	 *     __cpufreq_governor(data, CPUFREQ_GOV_POLICY_EXIT);
 	 */
 	struct rw_semaphore	rwsem;
-<<<<<<< HEAD
+
 	
 	unsigned int util;
-=======
 
-unsigned int util;
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 };
 
 /* Only for ACPI */
@@ -238,13 +236,10 @@ struct cpufreq_driver {
 
 	/* optional */
 	int	(*bios_limit)	(int cpu, unsigned int *limit);
-<<<<<<< HEAD
+
 
 	unsigned int (*getavg) (struct cpufreq_policy *policy, unsigned int cpu);
-=======
-     unsigned int (*getavg) (struct cpufreq_policy *policy,
-                         unsigned int cpu);
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 	int	(*exit)		(struct cpufreq_policy *policy);
 	int	(*suspend)	(struct cpufreq_policy *policy);
 	int	(*resume)	(struct cpufreq_policy *policy);
@@ -281,12 +276,12 @@ int cpufreq_unregister_driver(struct cpufreq_driver *driver_data);
 
 const char *cpufreq_get_current_driver(void);
 
-<<<<<<< HEAD
+
 void cpufreq_notify_utilization(struct cpufreq_policy *policy, unsigned int load);
-=======
+
 void cpufreq_notify_utilization(struct cpufreq_policy *policy,
                unsigned int load);
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 
 static inline void cpufreq_verify_within_limits(struct cpufreq_policy *policy,
 		unsigned int min, unsigned int max)
@@ -434,12 +429,12 @@ int cpufreq_driver_target(struct cpufreq_policy *policy,
 int __cpufreq_driver_target(struct cpufreq_policy *policy,
 				   unsigned int target_freq,
 				   unsigned int relation);
-<<<<<<< HEAD
+
 extern int __cpufreq_driver_getavg(struct cpufreq_policy *policy, unsigned int cpu);
-=======
+
 extern int __cpufreq_driver_getavg(struct cpufreq_policy *policy,
                                    unsigned int cpu); 
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 int cpufreq_register_governor(struct cpufreq_governor *governor);
 void cpufreq_unregister_governor(struct cpufreq_governor *governor);
 
@@ -473,8 +468,7 @@ extern struct cpufreq_governor cpufreq_gov_conservative;
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_INTERACTIVE)
 extern struct cpufreq_governor cpufreq_gov_interactive;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_interactive)
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ALUCARD)
 extern struct cpufreq_governor cpufreq_gov_alucard;
 #define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_alucard)
@@ -508,12 +502,12 @@ extern struct cpufreq_governor cpufreq_gov_lulzactive;
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_KTOOSERVATIVE)
 extern struct cpufreq_governor cpufreq_gov_ktooservative;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_ktooservative)
-=======
+
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_DARKNESS)
 extern struct cpufreq_governor cpufreq_gov_darkness;
 #define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_darkness)
->>>>>>> d0945ff... Add Darkness Governor with Optimizations
-=======
+
+
 
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_AUTHORITY)
 extern struct cpufreq_governor cpufreq_gov_authority;
@@ -587,7 +581,7 @@ extern struct cpufreq_governor cpufreq_gov_intel;
 extern struct cpufreq_governor cpufreq_gov_smartmax_eps;
 #define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_smartmax_eps)
 
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 #endif
 
 /*********************************************************************

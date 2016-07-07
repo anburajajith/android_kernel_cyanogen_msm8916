@@ -1,20 +1,16 @@
-<<<<<<< HEAD
-=======
 config THUNDERPLUG_CONTROL
 	bool "Enable plugging down/up of cores using powersuspend"
 	help
 	  This driver uses powersuspend to take down the cpu cores
 	  on a octa core device.
 
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 config INTELLI_PLUG
         bool "Enable intelli-plug cpu hotplug driver"
         default n
         help
           Generic Intelli-plug cpu hotplug driver for ARM SOCs
 
-<<<<<<< HEAD
-=======
 config MSM_HOTPLUG
 	bool "MSM hotplug driver"
 	depends on HOTPLUG_CPU
@@ -62,7 +58,7 @@ config ZEN_DECISION
 
 	  If unsure, say N.
 
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 config ASMP
     bool "Multi-core automatic hotplug support"
     depends on SMP
@@ -84,15 +80,14 @@ config ALUCARD_HOTPLUG
  	help
  	  Generic Alucard-hotplug cpu hotplug driver for ARM SOCs
 
-<<<<<<< HEAD
-=======
+
 config MSM_SLEEPER
  	bool "CPU hotplug driver"
  	default y
  	help
  	  CPU hotplug driver
 
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
 config INTELLI_PLUG
  	bool "Hotplug for Razor Reborn"
  	depends on MSM_RUN_QUEUE_STATS
@@ -100,9 +95,9 @@ config INTELLI_PLUG
  	help
  	  This enables kernel based multi core control.
 
-<<<<<<< HEAD
 
-=======
+
+
 config ASMP
  bool "Multi-core automatic hotplug support"
  depends on SMP
@@ -115,4 +110,4 @@ config CLUSTER_PLUG
  default n
  help
    CPU hotplug driver designed for ARM big.LITTLE systems where both the big and little CPUs are of the same type. On these systems, it preferable to normall use the big cluster, and only activate the little cluster for highly parallel loads. This hotplug implementation always keeps the big cluster online, and only activates the little cluster for heavy parallel loads.
->>>>>>> 0bc8dc4... Authority: Add support for a bunch of Hotplugs & Governors
+
