@@ -187,6 +187,7 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 
 	*freq = stats.current_frequency;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	*flag = 0;
 
@@ -226,6 +227,8 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 =======
 >>>>>>> 499672d... Update and enable powersuspend
 >>>>>>> parent of 589e1f2... Adreno idler
+=======
+>>>>>>> parent of bc15028... Update and enable powersuspend
 	priv->bin.total_time += stats.total_time;
 	priv->bin.busy_time += stats.busy_time;
 
