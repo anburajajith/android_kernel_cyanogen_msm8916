@@ -183,8 +183,12 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 499672d... Update and enable powersuspend
+>>>>>>> parent of 589e1f2... Adreno idler
 =======
 >>>>>>> 499672d... Update and enable powersuspend
 >>>>>>> parent of 589e1f2... Adreno idler
