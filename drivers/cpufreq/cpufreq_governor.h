@@ -201,6 +201,7 @@ struct ex_dbs_tuners {
 	unsigned int up_threshold;
 	unsigned int down_differential;
 	unsigned int active_floor_freq;
+	unsigned int max_screen_off_freq;
 	unsigned int sampling_down_factor;
 };
 
