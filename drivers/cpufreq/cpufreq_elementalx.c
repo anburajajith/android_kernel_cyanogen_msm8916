@@ -36,11 +36,15 @@
 =======
 #define DEF_INPUT_EVENT_MIN_FREQ		(1267200)
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define DEF_INPUT_EVENT_TIMEOUT			(0)
 >>>>>>> parent of ca2cb54... cpufreq_elementalx: replace input boost with down factor and floor frequency
 =======
 #define DEF_INPUT_EVENT_TIMEOUT			(600)
 >>>>>>> parent of 31461ad... cpufreq_elementalx: disable input boost
+=======
+#define DEF_INPUT_EVENT_TIMEOUT			(500)
+>>>>>>> parent of 0b592ab... cpufreq_elementalx: let input boost drop to lower frequency
 #define DEF_GBOOST_MIN_FREQ			(1728000)
 >>>>>>> parent of 50828bf... cpufreq_elementalx: tune and make less aggressive
 #define DEF_MAX_SCREEN_OFF_FREQ			(2265000)
@@ -188,6 +192,10 @@ static void ex_check_cpu(int cpu, unsigned int load)
 		goto finished;
 	}
 
+	if (input_event_boosted(cpu)) {
+		goto finished;
+	}
+
 	if (cur_freq == policy->min){
 		goto finished;
 	}
@@ -199,10 +207,7 @@ static void ex_check_cpu(int cpu, unsigned int load)
 				(ex_tuners->up_threshold -
 				 ex_tuners->down_differential);
 
-		if (input_event_boosted(cpu))
-			freq_next = MAX(freq_next, ex_data.input_min_freq);
-		else
-			freq_next = MAX(freq_next, policy->min);
+		freq_next = MAX(freq_next, policy->min);
 
 		__cpufreq_driver_target(policy, freq_next,
 			CPUFREQ_RELATION_L);
