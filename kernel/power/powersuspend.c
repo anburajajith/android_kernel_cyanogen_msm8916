@@ -108,11 +108,14 @@ abort:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 bool power_suspended = false;
 =======
 bool power_suspend = false;
 >>>>>>> parent of db879af... Fix typo
 
+=======
+>>>>>>> parent of c257b0c... Add power_suspend boolean variable
 void set_power_suspend_state(int new_state)
 =======
 void set_power_suspend_state_hook(int new_state)
@@ -129,10 +132,10 @@ static void set_power_suspend_state(int new_state)
 	if (!old_sleep && new_state == 1) {
 <<<<<<< HEAD
 		state = new_state;
-                power_suspend = true;
 		queue_work(suspend_work_queue, &power_suspend_work);
 	} else if (!old_sleep || new_state == 0) {
 		state = new_state;
+<<<<<<< HEAD
                 power_suspend = false;	
           	queue_work(suspend_work_queue, &power_resume_work);
 =======
@@ -140,6 +143,9 @@ static void set_power_suspend_state(int new_state)
 	} else if (!old_sleep || new_state == 0) {
 		queue_work(suspend_work_queue, &power_resume_work);
 >>>>>>> parent of 632823a... powersuspend: fix logci derps :p
+=======
+		queue_work(suspend_work_queue, &power_resume_work);
+>>>>>>> parent of c257b0c... Add power_suspend boolean variable
 	}
 	spin_unlock_irqrestore(&state_lock, irqflags);
 }

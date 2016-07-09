@@ -34,6 +34,7 @@ void set_power_suspend_state_autosleep_hook(int new_state);
 void set_power_suspend_state_pannel_hook(int new_state);
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 extern bool power_suspended;
 =======
 >>>>>>> parent of 37a823d... kernel/power/powersuspend: cumulative update to version 1.5
@@ -43,5 +44,7 @@ void set_power_suspend_state_hook(int new_state);
 
 =======
 >>>>>>> parent of df26144... kernel/power/powersuspend: remove userspace dependency from powersuspend
+=======
+>>>>>>> parent of c257b0c... Add power_suspend boolean variable
 #endif
 
