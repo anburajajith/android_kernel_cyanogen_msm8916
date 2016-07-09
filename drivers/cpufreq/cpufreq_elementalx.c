@@ -46,9 +46,13 @@
 #define DEF_INPUT_EVENT_TIMEOUT			(500)
 >>>>>>> parent of 0b592ab... cpufreq_elementalx: let input boost drop to lower frequency
 #define DEF_GBOOST_MIN_FREQ			(1728000)
+<<<<<<< HEAD
 >>>>>>> parent of 50828bf... cpufreq_elementalx: tune and make less aggressive
 #define DEF_MAX_SCREEN_OFF_FREQ			(2265000)
 >>>>>>> parent of 5491022... cpufreq_elementalx: remove fb notifier
+=======
+#define DEF_MAX_SCREEN_OFF_FREQ			(1728000)
+>>>>>>> parent of 0fdc5e0... cpufreq_elementalx: increase max screen off freq
 #define MIN_SAMPLING_RATE			(10000)
 #define FREQ_NEED_BURST(x)			(x < 800000 ? 1 : 0)
 #define MAX(x,y)				(x > y ? x : y)
