@@ -209,6 +209,7 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 =======
@@ -222,6 +223,9 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 >>>>>>> parent of 589e1f2... Adreno idler
 =======
 >>>>>>> parent of bc15028... Update and enable powersuspend
+=======
+>>>>>>> 499672d... Update and enable powersuspend
+>>>>>>> parent of 589e1f2... Adreno idler
 	priv->bin.total_time += stats.total_time;
 	priv->bin.busy_time += stats.busy_time;
 
