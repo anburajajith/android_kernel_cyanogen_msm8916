@@ -3,6 +3,14 @@
  * Copyright (C) 2007-2008 Google, Inc.
  * Copyright (C) 2013 Paul Reioux 
  *
+<<<<<<< HEAD
+=======
+ * Modified by Jean-Pierre Rasquin <yank555.lu@gmail.com>
+ *
+ *   make powersuspend not depend on a userspace initiator anymore,
+ *   but use a hook in autosleep instead.
+ *
+>>>>>>> parent of 56572c2... kernel/power/powersuspend: add back userpace control w/ default kernel control
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
  * may be copied, distributed, and modified under those terms.
@@ -19,6 +27,12 @@
 
 #include <linux/list.h>
 
+<<<<<<< HEAD
+=======
+#define POWER_SUSPEND_INACTIVE	0
+#define POWER_SUSPEND_ACTIVE	1
+
+>>>>>>> parent of 56572c2... kernel/power/powersuspend: add back userpace control w/ default kernel control
 struct power_suspend {
 	struct list_head link;
 	void (*suspend)(struct power_suspend *h);

@@ -3,6 +3,14 @@
  * Copyright (C) 2005-2008 Google, Inc.
  * Copyright (C) 2013 Paul Reioux
  *
+<<<<<<< HEAD
+=======
+ * Modified by Jean-Pierre Rasquin <yank555.lu@gmail.com>
+ *
+ *   make powersuspend not depend on a userspace initiator anymore,
+ *   but use a hook in autosleep instead.
+ *
+>>>>>>> parent of 56572c2... kernel/power/powersuspend: add back userpace control w/ default kernel control
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
  * may be copied, distributed, and modified under those terms.
@@ -20,7 +28,13 @@
 #include <linux/workqueue.h>
 
 #define MAJOR_VERSION	1
+<<<<<<< HEAD
 #define MINOR_VERSION	0
+=======
+#define MINOR_VERSION	1
+
+//#define POWER_SUSPEND_DEBUG
+>>>>>>> parent of 56572c2... kernel/power/powersuspend: add back userpace control w/ default kernel control
 
 struct workqueue_struct *suspend_work_queue;
 
@@ -105,7 +119,11 @@ abort:
 	mutex_unlock(&power_suspend_lock);
 }
 
+<<<<<<< HEAD
 static void set_power_suspend_state(int new_state)
+=======
+void set_power_suspend_state_hook(int new_state)
+>>>>>>> parent of 56572c2... kernel/power/powersuspend: add back userpace control w/ default kernel control
 {
 	unsigned long irqflags;
 	int old_sleep;
@@ -122,12 +140,18 @@ static void set_power_suspend_state(int new_state)
 	spin_unlock_irqrestore(&state_lock, irqflags);
 }
 
+<<<<<<< HEAD
+=======
+EXPORT_SYMBOL(set_power_suspend_state_hook);
+
+>>>>>>> parent of 56572c2... kernel/power/powersuspend: add back userpace control w/ default kernel control
 static ssize_t power_suspend_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
         return sprintf(buf, "%u\n", state);
 }
 
+<<<<<<< HEAD
 static ssize_t power_suspend_store(struct kobject *kobj,
 		struct kobj_attribute *attr, const char *buf, size_t count)
 {
@@ -141,6 +165,12 @@ static ssize_t power_suspend_store(struct kobject *kobj,
 	}
 	return count;
 }
+=======
+static struct kobj_attribute power_suspend_attribute =
+	__ATTR(power_suspend_state, 0444,
+		power_suspend_show,
+		NULL);
+>>>>>>> parent of 56572c2... kernel/power/powersuspend: add back userpace control w/ default kernel control
 
 static ssize_t power_suspend_version_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
@@ -198,6 +228,10 @@ static int __init power_suspend_init(void)
 	if (suspend_work_queue == NULL) {
 		return -ENOMEM;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 56572c2... kernel/power/powersuspend: add back userpace control w/ default kernel control
 	return 0;
 }
 
