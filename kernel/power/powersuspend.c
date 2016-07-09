@@ -107,7 +107,11 @@ abort:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 bool power_suspended = false;
+=======
+bool power_suspend = false;
+>>>>>>> parent of db879af... Fix typo
 
 void set_power_suspend_state(int new_state)
 =======
@@ -125,11 +129,11 @@ static void set_power_suspend_state(int new_state)
 	if (!old_sleep && new_state == 1) {
 <<<<<<< HEAD
 		state = new_state;
-                power_suspended = true;
+                power_suspend = true;
 		queue_work(suspend_work_queue, &power_suspend_work);
 	} else if (!old_sleep || new_state == 0) {
 		state = new_state;
-                power_suspended = false;	
+                power_suspend = false;	
           	queue_work(suspend_work_queue, &power_resume_work);
 =======
 		queue_work(suspend_work_queue, &power_suspend_work);
