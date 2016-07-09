@@ -35,8 +35,12 @@
 =======
 =======
 #define DEF_INPUT_EVENT_MIN_FREQ		(1267200)
+<<<<<<< HEAD
 #define DEF_INPUT_EVENT_TIMEOUT			(0)
 >>>>>>> parent of ca2cb54... cpufreq_elementalx: replace input boost with down factor and floor frequency
+=======
+#define DEF_INPUT_EVENT_TIMEOUT			(600)
+>>>>>>> parent of 31461ad... cpufreq_elementalx: disable input boost
 #define DEF_GBOOST_MIN_FREQ			(1728000)
 >>>>>>> parent of 50828bf... cpufreq_elementalx: tune and make less aggressive
 #define DEF_MAX_SCREEN_OFF_FREQ			(2265000)
