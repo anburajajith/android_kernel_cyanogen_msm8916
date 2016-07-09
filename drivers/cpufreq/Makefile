@@ -10,12 +10,15 @@ obj-$(CONFIG_CPU_FREQ_GOV_USERSPACE)	+= cpufreq_userspace.o
 obj-$(CONFIG_CPU_FREQ_GOV_ONDEMAND)	+= cpufreq_ondemand.o
 obj-$(CONFIG_CPU_FREQ_GOV_CONSERVATIVE)	+= cpufreq_conservative.o
 obj-$(CONFIG_CPU_FREQ_GOV_INTERACTIVE)	+= cpufreq_interactive.o
-
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 obj-$(CONFIG_CPU_FREQ_GOV_DARKNESS) 	+= cpufreq_darkness.o
 obj-$(CONFIG_CPU_FREQ_GOV_ELEMENTALX)	+= cpufreq_elementalx.o
-
+>>>>>>> d8ee62d... ElementalX governor version 2
+=======
 obj-$(CONFIG_CPU_FREQ_GOV_DARKNESS) 	+= cpufreq_darkness.o
-obj-$(CONFIG_CPU_FREQ_GOV_INTEL)	+= cpufreq_intel.o
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 obj-$(CONFIG_CPU_FREQ_GOV_COMMON)		+= cpufreq_governor.o
 obj-$(CONFIG_CPU_FREQ_GOV_LIONFISH)	+= cpufreq_lionfish.o
 obj-$(CONFIG_CPU_BOOST)			+= cpu-boost.o

@@ -103,17 +103,6 @@ config CPU_FREQ_DEFAULT_GOV_ELEMENTALX
 	select CPU_FREQ_GOV_PERFORMANCE
 	help
 	  Use the CPUFreq governor 'elementalx' as default.
-	  
-config CPU_FREQ_DEFAULT_GOV_INTEL
-	bool "intel"
-	select CPU_FREQ_GOV_INTEL
-	help
-	  Use the CPUFreq governor 'intel' as default. This allows
-	  you to get a full dynamic cpu frequency capable system by simply
-	  loading your cpufreq low-level hardware driver, using the
-	  'intel' governor for better perfromance and power with Intel
-	  mobile platforms.
-
 
 config CPU_FREQ_DEFAULT_GOV_CONSERVATIVE
 	bool "conservative"
@@ -136,19 +125,25 @@ config CPU_FREQ_DEFAULT_GOV_INTERACTIVE
 	  loading your cpufreq low-level hardware driver, using the
 	  'interactive' governor for latency-sensitive workloads.
 
-
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 config CPU_FREQ_DEFAULT_GOV_DARKNESS
  	bool "darkness"
  	select CPU_FREQ_GOV_DARKNESS
 
-
+<<<<<<< HEAD
 config CPU_FREQ_DEFAULT_GOV_LIONFISH
 	bool "lionfish"
 	select CPU_FREQ_GOV_LIONFISH
 	help
 	  Use the CPUFreq governor 'lionfish' as default.
 
-
+>>>>>>> 0171995... cpufreq: add lionfish governor
+=======
+>>>>>>> d0945ff... Add Darkness Governor with Optimizations
 endchoice
 
 config CPU_FREQ_GOV_PERFORMANCE
