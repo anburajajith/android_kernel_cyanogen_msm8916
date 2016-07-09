@@ -125,34 +125,19 @@ config CPU_FREQ_DEFAULT_GOV_INTERACTIVE
 	  loading your cpufreq low-level hardware driver, using the
 	  'interactive' governor for latency-sensitive workloads.
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> d0945ff... Add Darkness Governor with Optimizations
+
 config CPU_FREQ_DEFAULT_GOV_DARKNESS
  	bool "darkness"
  	select CPU_FREQ_GOV_DARKNESS
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0171995... cpufreq: add lionfish governor
+
 config CPU_FREQ_DEFAULT_GOV_LIONFISH
 	bool "lionfish"
 	select CPU_FREQ_GOV_LIONFISH
 	help
 	  Use the CPUFreq governor 'lionfish' as default.
 
-<<<<<<< HEAD
->>>>>>> 0171995... cpufreq: add lionfish governor
-=======
->>>>>>> d0945ff... Add Darkness Governor with Optimizations
->>>>>>> 845b7b0... darkness
-=======
->>>>>>> 0171995... cpufreq: add lionfish governor
+
 endchoice
 
 config CPU_FREQ_GOV_PERFORMANCE

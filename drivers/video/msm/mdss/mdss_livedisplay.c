@@ -52,7 +52,8 @@
 extern void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
 		struct dsi_panel_cmds *pcmds);
 
-static int parse_dsi_cmds(struct dsi_panel_cmds *pcmds, const uint8_t *cmd, int blen)
+static int parse_dsi_cmds(struct mdss_livedisplay_ctx *mlc,
+		struct dsi_panel_cmds *pcmds, const uint8_t *cmd, int blen)
 {
 	int len;
 	char *buf, *bp;
@@ -111,8 +112,7 @@ static int parse_dsi_cmds(struct dsi_panel_cmds *pcmds, const uint8_t *cmd, int 
 		len -= dchdr->dlen;
 	}
 
-	/*Set default link state to HS Mode*/
-	pcmds->link_state = DSI_HS_MODE;
+	pcmds->link_state = mlc->link_state;
 
 	pr_debug("%s: dcs_cmd=%x len=%d, cmd_cnt=%d link_state=%d\n", __func__,
 		pcmds->buf[0], pcmds->blen, pcmds->cmd_cnt, pcmds->link_state);
@@ -255,11 +255,7 @@ static void mdss_livedisplay_worker(struct work_struct *work)
 		}
 	}
 
-<<<<<<< HEAD
 	// CABC/SRE/ACO/CABC_CE features
-=======
-	// CABC/SRE/ACO features
->>>>>>> c93b41c... video: mdss: Improve the LiveDisplay driver
 	if (is_cabc_cmd(mlc->updated) && mlc->cabc_cmds_len) {
 		memcpy(mlc->cmd_buf + dlen, mlc->cabc_cmds, mlc->cabc_cmds_len);
 		dlen += mlc->cabc_cmds_len;
@@ -274,25 +270,18 @@ static void mdss_livedisplay_worker(struct work_struct *work)
 	}
 
 	// Parse the command and send it
-	ret = parse_dsi_cmds(&dsi_cmds, mlc->cmd_buf, len);
+	ret = parse_dsi_cmds(mlc, &dsi_cmds, mlc->cmd_buf, len);
 	if (ret == 0) {
 		mdss_dsi_panel_cmds_send(ctrl_pdata, &dsi_cmds);
 	} else {
 		pr_err("%s: error parsing DSI command! ret=%d", __func__, ret);
 	}
 
-<<<<<<< HEAD
 out:
-=======
->>>>>>> c93b41c... video: mdss: Improve the LiveDisplay driver
 	// Restore saved RGB settings
 	if (mlc->updated & MODE_RGB)
 		mdss_livedisplay_update_pcc(mlc);
 
-<<<<<<< HEAD
-=======
-out:
->>>>>>> c93b41c... video: mdss: Improve the LiveDisplay driver
 	mlc->updated = 0;
 	mutex_unlock(&mlc->lock);
 }
@@ -393,12 +382,8 @@ static ssize_t mdss_livedisplay_set_color_enhance(struct device *dev,
 		mutex_lock(&mlc->lock);
 		mlc->ce_enabled = value;
 		mutex_unlock(&mlc->lock);
-<<<<<<< HEAD
 		mdss_livedisplay_update(mlc,
 				MODE_COLOR_ENHANCE | MODE_CABC_COLOR_ENHANCE);
-=======
-		mdss_livedisplay_update(mlc, MODE_COLOR_ENHANCE);
->>>>>>> c93b41c... video: mdss: Improve the LiveDisplay driver
 	}
 
 	return count;
@@ -547,12 +532,19 @@ int mdss_livedisplay_parse_dt(struct device_node *np, struct mdss_panel_info *pi
 	int rc = 0, i = 0;
 	struct mdss_livedisplay_ctx *mlc;
 	char preset_name[64];
+	const char *link_state;
 	uint32_t tmp = 0;
 
 	if (pinfo == NULL)
 		return -ENODEV;
 
 	mlc = kzalloc(sizeof(struct mdss_livedisplay_ctx), GFP_KERNEL);
+
+	link_state = of_get_property(np, "cm,mdss-livedisplay-command-state", NULL);
+	if (link_state && !strcmp(link_state, "dsi_lp_mode"))
+		mlc->link_state = DSI_LP_MODE;
+	else
+		mlc->link_state = DSI_HS_MODE;
 
 	mlc->cabc_cmds = of_get_property(np,
 			"cm,mdss-livedisplay-cabc-cmd", &mlc->cabc_cmds_len);
