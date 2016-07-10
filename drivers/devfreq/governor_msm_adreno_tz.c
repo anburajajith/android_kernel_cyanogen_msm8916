@@ -186,36 +186,6 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 	}
 
 	*freq = stats.current_frequency;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-	*flag = 0;
-
-	/*
-	 * Force to use & record as min freq when system has
-	 * entered pm-suspend or screen-off state.
-	 */
-	if (suspended || power_suspended) {
-		*freq = devfreq->profile->freq_table[devfreq->profile->max_state - 1];
-		return 0;
-	}
-
-#ifdef CONFIG_ADRENO_IDLER
-	if (adreno_idler(stats, devfreq, freq)) {
-		/* adreno_idler has asked to bail out now */
-		return 0;
-	}
-#endif
-
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 55f913f... Update and enable powersuspend
-=======
->>>>>>> 499672d... Update and enable powersuspend
->>>>>>> parent of 26ce09c... Adreno idler
-=======
->>>>>>> parent of 55f913f... Update and enable powersuspend
 	priv->bin.total_time += stats.total_time;
 	priv->bin.busy_time += stats.busy_time;
 

@@ -181,25 +181,24 @@ struct cs_dbs_tuners {
 	unsigned int freq_step;
 };
 
-<<<<<<< HEAD
+
 struct ex_dbs_tuners {
 	unsigned int ignore_nice_load;
 	unsigned int sampling_rate;
 	unsigned int up_threshold;
 	unsigned int down_differential;
-<<<<<<< HEAD
+
 	unsigned int active_floor_freq;
-=======
+
 	unsigned int gboost;
 	unsigned int gboost_min_freq;
 	unsigned int input_event_timeout;
 	unsigned int input_min_freq;
->>>>>>> parent of ca2cb54... cpufreq_elementalx: replace input boost with down factor and floor frequency
+
 	unsigned int max_screen_off_freq;
 };
 
-=======
->>>>>>> parent of 6e2b2aa... ElementalX governor version 2
+
 /* Common Governor data across policies */
 struct dbs_data;
 struct common_dbs_data {
