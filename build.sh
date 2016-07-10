@@ -24,24 +24,26 @@ yellow='\033[0;33m'
 red='\033[0;31m'
 nocol='\033[0m'
 # Modify the following variable if you want to build
-export CROSS_COMPILE="/home/varunchitre15/cm13/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
+export LD_LIBRARY_PATH="/home/ajith/linux/aarch64-linux-android-4.9-kernel/x86_64-linux-gnu/aarch64-linux-android/lib"
+export CROSS_COMPILE="/home/ajith/linux/aarch64-linux-android-4.9-uber-master/bin/aarch64-linux-android-"
 export ARCH=arm64
 export SUBARCH=arm64
-export KBUILD_BUILD_USER="varun.chitre15"
-export KBUILD_BUILD_HOST="EroticBox"
-STRIP="/home/varunchitre15/cm13/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-strip"
-MODULES_DIR=$KERNEL_DIR/../modulesTomato
+export USE_CCACHE=1
+export KBUILD_BUILD_USER="ajith"
+export KBUILD_BUILD_HOST="alpha"
+STRIP="/home/ajith/linux/aarch64-linux-android-4.9-uber-master/bin/aarch64-linux-android-"
+MODULES_DIR=/home/ajith/builds/common
+OUT_DIR=/home/ajith/builds/Tomato
 
 compile_kernel ()
 {
 echo -e "$blue***********************************************"
 echo "          Compiling ThunderZap kernel          "
 echo -e "***********************************************$nocol"
-rm -f $KERN_IMG
-make cyanogenmod_tomato-64_defconfig -j12
-make Image -j12
-make dtbs -j12
-make modules -j12
+make cyanogenmod_tomato-64_defconfig -j8
+make Image -j8
+make dtbs -j8
+make modules -j8
 if ! [ -a $KERN_IMG ];
 then
 echo -e "$red Kernel Compilation failed! Fix the errors! $nocol"
@@ -69,8 +71,8 @@ make ARCH=arm64 -j8 clean mrproper
 rm -rf $KERNEL_DIR/arch/arm/boot/dt.img
 ;;
 dt)
-make cyanogenmod_tomato-64_defconfig -j12
-make dtbs -j12
+make cyanogenmod_tomato-64_defconfig -j8
+make dtbs -j8
 $DTBTOOL -2 -o $KERNEL_DIR/arch/arm64/boot/dt.img -s 2048 -p $KERNEL_DIR/scripts/dtc/ $KERNEL_DIR/arch/arm/boot/dts/
 ;;
 *)

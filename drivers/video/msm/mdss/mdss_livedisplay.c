@@ -255,11 +255,11 @@ static void mdss_livedisplay_worker(struct work_struct *work)
 		}
 	}
 
-<<<<<<< HEAD
+
 	// CABC/SRE/ACO/CABC_CE features
-=======
+
 	// CABC/SRE/ACO features
->>>>>>> c93b41c... video: mdss: Improve the LiveDisplay driver
+
 	if (is_cabc_cmd(mlc->updated) && mlc->cabc_cmds_len) {
 		memcpy(mlc->cmd_buf + dlen, mlc->cabc_cmds, mlc->cabc_cmds_len);
 		dlen += mlc->cabc_cmds_len;
@@ -281,18 +281,18 @@ static void mdss_livedisplay_worker(struct work_struct *work)
 		pr_err("%s: error parsing DSI command! ret=%d", __func__, ret);
 	}
 
-<<<<<<< HEAD
+
 out:
-=======
->>>>>>> c93b41c... video: mdss: Improve the LiveDisplay driver
+
+
 	// Restore saved RGB settings
 	if (mlc->updated & MODE_RGB)
 		mdss_livedisplay_update_pcc(mlc);
 
-<<<<<<< HEAD
-=======
-out:
->>>>>>> c93b41c... video: mdss: Improve the LiveDisplay driver
+
+
+
+
 	mlc->updated = 0;
 	mutex_unlock(&mlc->lock);
 }
@@ -393,12 +393,12 @@ static ssize_t mdss_livedisplay_set_color_enhance(struct device *dev,
 		mutex_lock(&mlc->lock);
 		mlc->ce_enabled = value;
 		mutex_unlock(&mlc->lock);
-<<<<<<< HEAD
+
 		mdss_livedisplay_update(mlc,
 				MODE_COLOR_ENHANCE | MODE_CABC_COLOR_ENHANCE);
-=======
+
 		mdss_livedisplay_update(mlc, MODE_COLOR_ENHANCE);
->>>>>>> c93b41c... video: mdss: Improve the LiveDisplay driver
+
 	}
 
 	return count;
